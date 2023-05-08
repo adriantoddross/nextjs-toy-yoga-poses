@@ -21,7 +21,3 @@ export default function About() {
     </section>
   );
 }
-
-/*
-Where do I put static images?
-*/
