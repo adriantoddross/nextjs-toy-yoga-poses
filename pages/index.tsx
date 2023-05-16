@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { useState } from "react";
 
 const yogaPosesData = [
@@ -7,16 +6,19 @@ const yogaPosesData = [
   { src: "#", description: "3. Context around the pose" },
 ];
 
-const handleShowNextImage = () =>
-  console.log("Display next image and description");
+const showNextPose = (index) => {
+  if (index === yogaPosesData.length - 1) return 0;
+  return ++index;
+};
 
-// Add React state initialized with yogaPosesData.
+export default function Home() {
+  const [currentArrayIndex, setArrayIndex] = useState(0);
 
-// Add event handler
-// The state variable should be a number that gets incremented
-// If state is greater than 2, reset state to 0
+  const handleShowNextImage = () => {
+    setArrayIndex(showNextPose(currentArrayIndex));
+    return;
+  };
 
-export default function About() {
   return (
     <section>
       <div>
@@ -25,11 +27,11 @@ export default function About() {
       </div>
 
       <div>
-        <img src="#" />
+        <img src={yogaPosesData[currentArrayIndex].src} />
       </div>
 
       <div>
-        <p>Text goes here</p>
+        <p>{yogaPosesData[currentArrayIndex].description}</p>
         <button type="button" onClick={handleShowNextImage}>
           Next
         </button>
