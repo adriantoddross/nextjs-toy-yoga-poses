@@ -1,37 +1,16 @@
 import { useState } from "react";
 import Image from "next/image";
-
-const yogaPosesData = [
-  {
-    alt: "Woman demonstrating downward dog pose",
-    description: "This is the Downward Dog pose! Check it out!",
-    src: "/pose-downwardDog.webp",
-  },
-  {
-    alt: "Woman standing up straight with arms at side and palms facing inner-thighs",
-    description: "Get sturdy with the Mountain pose!",
-    src: "/pose-mountain.webp",
-  },
-  {
-    alt: "Woman demonstrating warrior pose",
-    description:
-      "War. War never changes. Neither does the classic Warrior One pose!",
-    src: "/pose-warriorOne.webp",
-  },
-];
-
-const showNextPose = (index) => {
-  if (index === yogaPosesData.length - 1) return 0;
-  return ++index;
-};
+import { yogaPosesData, showNextPose } from "util/yogaPosesData";
 
 export default function Home() {
-  const [currentArrayIndex, setArrayIndex] = useState(0);
+  const [currentPoseIndex, setPoseIndex] = useState(0);
 
   const handleShowNextImage = () => {
-    setArrayIndex(showNextPose(currentArrayIndex));
+    setPoseIndex(showNextPose(currentPoseIndex, yogaPosesData));
     return;
   };
+
+  const { alt, description, src, title } = yogaPosesData[currentPoseIndex];
 
   return (
     <section>
@@ -41,16 +20,14 @@ export default function Home() {
       </div>
 
       <div>
-        <img
-          src={yogaPosesData[currentArrayIndex].src}
-          alt={yogaPosesData[currentArrayIndex].alt}
-        />
+        <img src={src} alt={alt} />
       </div>
 
       <div>
-        <p>{yogaPosesData[currentArrayIndex].description}</p>
+        <h2>{title}</h2>
+        <p>{description}</p>
         <button type="button" onClick={handleShowNextImage}>
-          Next
+          Show next pose
         </button>
       </div>
     </section>
