@@ -1,9 +1,23 @@
 import { useState } from "react";
+import Image from "next/image";
 
 const yogaPosesData = [
-  { src: "#", description: "1. Describing the pose" },
-  { src: "#", description: "2. History of the pose" },
-  { src: "#", description: "3. Context around the pose" },
+  {
+    alt: "Woman demonstrating downward dog pose",
+    description: "This is the Downward Dog pose! Check it out!",
+    src: "/pose-downwardDog.webp",
+  },
+  {
+    alt: "Woman standing up straight with arms at side and palms facing inner-thighs",
+    description: "Get sturdy with the Mountain pose!",
+    src: "/pose-mountain.webp",
+  },
+  {
+    alt: "Woman demonstrating warrior pose",
+    description:
+      "War. War never changes. Neither does the classic Warrior One pose!",
+    src: "/pose-warriorOne.webp",
+  },
 ];
 
 const showNextPose = (index) => {
@@ -27,7 +41,10 @@ export default function Home() {
       </div>
 
       <div>
-        <img src={yogaPosesData[currentArrayIndex].src} />
+        <img
+          src={yogaPosesData[currentArrayIndex].src}
+          alt={yogaPosesData[currentArrayIndex].alt}
+        />
       </div>
 
       <div>
