@@ -23,13 +23,13 @@ export default function Home() {
         <img src={src} alt={alt} />
       </div>
 
-      <div>
+      <section>
         <h2>{title}</h2>
         <p>{description}</p>
         <button type="button" onClick={handleShowNextImage}>
           Show next pose
         </button>
-      </div>
+      </section>
     </section>
   );
 }
