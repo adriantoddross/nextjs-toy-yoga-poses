@@ -12,6 +12,8 @@
     "@graphql-tools/load-files": "6.0.18",
     "@graphql-tools/merge": "6.0.18",
     "@graphql-tools/schema": "6.0.18",
+    "@headlessui/react": "^1.7.14",
+    "@heroicons/react": "^2.0.18",
     "autoprefixer": "^10.4.14",
     "graphql": "15.6.0",
     "graphql-codegen": "^0.4.0",
