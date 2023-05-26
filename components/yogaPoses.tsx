@@ -15,18 +15,17 @@ export default function YogaPoses() {
   return (
     <section>
       <div>
-        <h1>Yoga Poses</h1>
-        <p>View random yoga poses with the click of a button.</p>
-      </div>
-
-      <div>
         <img src={src} alt={alt} />
       </div>
 
-      <section>
-        <h2>{title}</h2>
-        <p>{description}</p>
-        <button type="button" onClick={handleShowNextImage}>
+      <section className="flex flex-col space-y-2">
+        <h2 className="text-xl font-bold pt-2">{title}</h2>
+        <p className="">{description}</p>
+        <button
+          type="button"
+          onClick={handleShowNextImage}
+          className="border p-2"
+        >
           Show next pose
         </button>
       </section>
