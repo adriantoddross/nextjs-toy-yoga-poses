@@ -1,35 +1,27 @@
-import { useState } from "react";
-import Image from "next/image";
-import { yogaPosesData, showNextPose } from "util/yogaPosesData";
+import YogaPoses from "components/yogaPoses";
 
 export default function Home() {
-  const [currentPoseIndex, setPoseIndex] = useState(0);
-
-  const handleShowNextImage = () => {
-    setPoseIndex(showNextPose(currentPoseIndex, yogaPosesData));
-    return;
-  };
-
-  const { alt, description, src, title } = yogaPosesData[currentPoseIndex];
-
   return (
-    <section>
-      <div>
-        <h1>Yoga Poses</h1>
-        <p>View random yoga poses with the click of a button.</p>
+    <>
+      <div className="min-h-full">
+        <header className="bg-white shadow">
+          <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+            <h1 className="text-3xl font-bold leading-tight tracking-tight text-gray-900">
+              Yoga Poses
+            </h1>
+            <p>View random yoga poses with the click of a button</p>
+          </div>
+        </header>
+        <main>
+          <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+              <div className="mx-auto max-w-3xl">
+                <YogaPoses />
+              </div>
+            </div>
+          </div>
+        </main>
       </div>
-
-      <div>
-        <img src={src} alt={alt} />
-      </div>
-
-      <section>
-        <h2>{title}</h2>
-        <p>{description}</p>
-        <button type="button" onClick={handleShowNextImage}>
-          Show next pose
-        </button>
-      </section>
-    </section>
+    </>
   );
 }
