@@ -1,17 +1,11 @@
 const typeDefs = /* GraphQL */ `
-  type User {
-    id: ID!
+  type Pose {
     name: String!
-    status: String!
   }
 
   type Query {
-    viewer: User!
+    getPoses: Pose!
   }
+`;
 
-  type Mutation {
-    updateName(name: String!): User!
-  }
-`
-
-export default typeDefs
+export default typeDefs;
