@@ -1,43 +1,24 @@
-# TypeScript and GraphQL Example
+# Yoga Poses
 
-One of the strengths of GraphQL is [enforcing data types on runtime](https://graphql.github.io/graphql-spec/June2018/#sec-Value-Completion). Further, TypeScript and [GraphQL Code Generator](https://graphql-code-generator.com/) (graphql-codegen) make it safer by typing data statically, so you can write truly type-protected code with rich IDE assists.
+This app shows random yoga poses that can be done while taking breaks from sedentary work.
 
-This template gives you the best start to use GraphQL with fully typed queries (client-side) and resolvers (server-side), all this with minimum bundle size 📦
+**The purpose of this project is to:**
 
-```tsx
-import { useQuery } from '@apollo/client'
-import { ViewerDocument } from 'lib/graphql-operations'
+- Practice scoping tasks and estimating how long tasks will take
+- Practice communicating and mitigating risks when tasks are taking longer than estimated
+- Demonstrate an understanding of how to setup a new codebase quickly
+- Demonstrate understanding of building applications using Jamstack
+  architecture
+- Demonstrate an level 1-2 understanding of React in accordance with thoughtbot's developer expectations.
 
-const News = () => {
-  // Typed already️⚡️
-  const {
-    data: { viewer },
-  } = useQuery(ViewerDocument)
+# Development
 
-  return <div>{viewer.name}</div>
-}
-```
+This project was bootstraped with `create-next-app` using the [with-typescript-graphql](https://github.com/vercel/next.js/tree/canary/examples/with-typescript-graphql) template from the [Next.js examples](https://github.com/vercel/next.js/tree/canary/examples) repo.
 
-## Deploy your own
+This project uses [yarn](https://yarnpkg.com/) for package management. Use `yarn install` to install all dependencies for the project. Start the development server with `yarn dev`.
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example) or preview live with [StackBlitz](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-typescript-graphql)
+# Architecture
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-typescript-graphql&project-name=with-typescript-graphql&repository-name=with-typescript-graphql)
-
-## How to use
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
-
-```bash
-npx create-next-app --example with-typescript-graphql with-typescript-graphql-app
-```
-
-```bash
-yarn create next-app --example with-typescript-graphql with-typescript-graphql-app
-```
-
-```bash
-pnpm create next-app --example with-typescript-graphql with-typescript-graphql-app
-```
-
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+- Next.js
+- GraphQL
+- Tailwind CSS
