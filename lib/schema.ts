@@ -4,7 +4,7 @@ const typeDefs = /* GraphQL */ `
   }
 
   type Query {
-    getPoses: Pose!
+    getPoses: String
   }
 `;
 

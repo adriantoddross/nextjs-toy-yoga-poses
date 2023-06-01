@@ -6,8 +6,8 @@ const yogaPoseObject = {
 
 const resolvers: Resolvers = {
   Query: {
-    getPoses(_parent, _args, _context, _info) {
-      return yogaPoseObject;
+    getPoses() {
+      return "Hello!";
     },
   },
 };
