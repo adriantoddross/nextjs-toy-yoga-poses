@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Image from "next/image";
 import { yogaPosesData, showNextPose } from "util/yogaPosesData";
 
 export default function YogaPoses() {
@@ -10,7 +9,10 @@ export default function YogaPoses() {
     return;
   };
 
+  // getPoses query
+
   const { alt, description, src, title } = yogaPosesData[currentPoseIndex];
+  // change this line to use the data from the getPoses query
 
   return (
     <section>
