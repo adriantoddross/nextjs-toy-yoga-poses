@@ -17,6 +17,10 @@ This project was bootstraped with `create-next-app` using the [with-typescript-g
 
 This project uses [yarn](https://yarnpkg.com/) for package management. Use `yarn install` to install all dependencies for the project. Start the development server with `yarn dev`.
 
+## API
+
+Consume the yoga poses API with at `/api/graphql`. You can get use the `getPoses` query to get a single yoga pose object.
+
 # Architecture
 
 - Next.js
