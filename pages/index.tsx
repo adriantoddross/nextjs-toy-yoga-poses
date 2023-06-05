@@ -2,6 +2,7 @@ import YogaPoses from "components/yogaPoses";
 import { useUser } from "@auth0/nextjs-auth0/client";
 
 export default function Home() {
+  // Query and console log yoga poses from GraphQL
   const { user, error, isLoading } = useUser();
 
   if (isLoading) return <div>Loading...</div>;
