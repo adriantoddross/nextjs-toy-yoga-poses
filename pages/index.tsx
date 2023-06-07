@@ -3,7 +3,6 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import { gql, useQuery } from "@apollo/client";
 
 export default function Home() {
-  // Query and console log yoga poses from GraphQL
   const { user, error, isLoading } = useUser();
 
   const GET_POSES = gql`
@@ -22,10 +21,10 @@ export default function Home() {
   const { loading, error: QueryError, data } = useQuery(GET_POSES);
 
   if (isLoading) return <div>Loading...</div>;
+
   if (error || QueryError)
     return <div>{error.message || QueryError.message}</div>;
 
-  console.log(data.poses);
   return (
     <>
       <div className="min-h-full">
@@ -35,7 +34,6 @@ export default function Home() {
               Yoga Poses
             </h1>
             <p>View random yoga poses with the click of a button</p>
-            <div></div>
             <div>
               {user ? (
                 <a href="/api/auth/logout">Logout</a>
@@ -58,9 +56,8 @@ export default function Home() {
           <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <div className="mx-auto max-w-3xl">
-                {data.poses.map(({ title }) => (
-                  <div>{title}</div>
-                ))}
+                {data.poses &&
+                  data.poses.map(({ title }) => <div>{title}</div>)}
                 {/* <YogaPoses /> */}
               </div>
             </div>
