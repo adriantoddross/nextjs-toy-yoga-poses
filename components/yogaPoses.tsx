@@ -6,6 +6,7 @@ export default function YogaPoses() {
   const [currentPoseIndex, setPoseIndex] = useState(0);
 
   const handleShowNextImage = () => {
+    // Replace yogaPosesData with data from query
     setPoseIndex(showNextPose(currentPoseIndex, yogaPosesData));
     return;
   };
@@ -18,6 +19,7 @@ export default function YogaPoses() {
         <img src={src} alt={alt} />
       </div>
 
+      {/* Show this <section> if data.poses is truthy */}
       <section className="flex flex-col space-y-2">
         <h2 className="text-xl font-bold pt-2">{title}</h2>
         <p className="">{description}</p>
