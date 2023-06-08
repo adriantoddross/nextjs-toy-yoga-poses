@@ -1,29 +1,12 @@
 import YogaPoses from "components/yogaPoses";
 import { useUser } from "@auth0/nextjs-auth0/client";
-import { gql, useQuery } from "@apollo/client";
 
 export default function Home() {
   const { user, error, isLoading } = useUser();
 
-  const GET_POSES = gql`
-    query GetPoses {
-      poses {
-        id
-        created_at
-        image
-        subtitle
-        title
-        difficulty
-      }
-    }
-  `;
-
-  const { loading, error: QueryError, data } = useQuery(GET_POSES);
-
   if (isLoading) return <div>Loading...</div>;
 
-  if (error || QueryError)
-    return <div>{error.message || QueryError.message}</div>;
+  if (error) return <div>{error.message}</div>;
 
   return (
     <>
@@ -56,9 +39,7 @@ export default function Home() {
           <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <div className="mx-auto max-w-3xl">
-                {data.poses &&
-                  data.poses.map(({ title }) => <div>{title}</div>)}
-                {/* <YogaPoses /> */}
+                <YogaPoses />
               </div>
             </div>
           </div>
