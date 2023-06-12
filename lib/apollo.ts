@@ -30,7 +30,9 @@ function createIsomorphLink(context: ResolverContext = {}) {
     return new HttpLink({
       uri: "https://expert-airedale-58.hasura.app/v1/graphql",
       credentials: "include",
-      headers: { "x-hasura-admin-secret": process.env.HASURA_SECRET },
+      headers: {
+        "x-hasura-admin-secret": process.env.NEXT_PUBLIC_HASURA_SECRET,
+      },
     });
   }
 }

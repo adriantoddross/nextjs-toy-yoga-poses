@@ -5,6 +5,7 @@ export default function Home() {
   const { user, error, isLoading } = useUser();
 
   if (isLoading) return <div>Loading...</div>;
+
   if (error) return <div>{error.message}</div>;
 
   return (
@@ -16,7 +17,6 @@ export default function Home() {
               Yoga Poses
             </h1>
             <p>View random yoga poses with the click of a button</p>
-            <div></div>
             <div>
               {user ? (
                 <a href="/api/auth/logout">Logout</a>
