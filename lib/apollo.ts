@@ -28,7 +28,7 @@ function createIsomorphLink(context: ResolverContext = {}) {
   } else {
     const { HttpLink } = require("@apollo/client");
     return new HttpLink({
-      uri: "https://expert-airedale-58.hasura.app/v1/graphql",
+      uri: "https://aross-yoga-app.hasura.app/v1/graphql",
       credentials: "include",
       headers: {
         "x-hasura-admin-secret": process.env.NEXT_PUBLIC_HASURA_SECRET,
