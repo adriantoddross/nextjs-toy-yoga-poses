@@ -3,17 +3,18 @@ import Link from "next/link";
 import Header from "components/header";
 import { useState } from "react";
 import Sidebar from "components/Sidebar";
+import PoseCard from "components/PoseCard";
+import { yogaPosesData } from "util/yogaPosesData";
 
 export default function Home({ exercises }) {
-  const [showPoses, setShowPoses] = useState(false); // useState
+  const [showPoses, setShowPoses] = useState(false);
   const [filteredExercises, setFilteredExercises] = useState([]);
-  // all exercises already coming in the props
+
   const handleExerciseSelected = (exercise) => {
     const filtered = exercises.select((exercise) => exercise == exercise);
     setFilteredExercises(filtered);
     setShowPoses(true);
   };
-  // also sets showPoses to true
 
   return (
     <div>
@@ -22,19 +23,10 @@ export default function Home({ exercises }) {
       // onExerciseSelected={handleExerciseSelected}
       />
       <main>
-        Yoga cards
-        {/* {showPoses ? (
-        <YogaPosesCards exercises={filteredExercises} />
-      ) : (
-        <div>Select an exercise to get started!</div>
-      )} */}
+        {showPoses
+          ? yogaPosesData.map(({ title }) => <PoseCard title={title} />)
+          : "Select an exercise to see your recommended yoga poses"}
       </main>
     </div>
   );
 }
-
-// export const getServerSideProps = async () => {
-//   // graphql api call
-//   //  const exercises =  api call results
-//   return { exercises };
-// };
