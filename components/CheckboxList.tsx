@@ -1,8 +1,12 @@
-export default function CheckboxList({ exercises }) {
-  // { exercises, onExerciseSelected }
+import { useState } from "react";
+import Checkbox from "./Checkbox";
 
-  const onExerciseSelected = (e) =>
-    console.log(`${e.target.name} checkbox clicked`);
+export default function CheckboxList({ exercises }) {
+  const [checked, setChecked] = useState([]);
+
+  const onExerciseSelected = (exercise) => {
+    console.log(`${exercise} checkbox clicked`);
+  };
 
   return (
     <fieldset>
@@ -12,19 +16,13 @@ export default function CheckboxList({ exercises }) {
       </div>
 
       <div>
-        {exercises?.map((title) => {
-          return (
-            <div key={title}>
-              <input
-                type="checkbox"
-                id={title}
-                name={title}
-                onChange={onExerciseSelected}
-              />
-              <label htmlFor={title}>{title}</label>
-            </div>
-          );
-        })}
+        {exercises?.map((title) => (
+          <Checkbox
+            key={title}
+            title={title}
+            onCheckboxSelected={onExerciseSelected}
+          />
+        ))}
       </div>
     </fieldset>
   );
