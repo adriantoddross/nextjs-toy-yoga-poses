@@ -8,14 +8,17 @@ export default function Sidebar() {
     <div>
       <Header />
 
-      <div>
-        <p>Filters</p>
-        <button>Reset</button>
-      </div>
-      <div>
-        <div>By exercise:</div>
-        <input type="checkbox" name="" id="" />
-      </div>
+      <fieldset>
+        <div>
+          <legend>By exercise:</legend>
+          <button type="button">Reset</button>
+        </div>
+
+        <div>
+          <input type="checkbox" id="scales" name="scales" checked />
+          <label htmlFor="scales">Scales</label>
+        </div>
+      </fieldset>
     </div>
   );
 }
