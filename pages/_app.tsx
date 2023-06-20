@@ -9,9 +9,9 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <UserProvider>
-      <ApolloProvider client={apolloClient}>
-        <Component {...pageProps} />
-      </ApolloProvider>
+      {/* <ApolloProvider client={apolloClient}> */}
+      <Component {...pageProps} />
+      {/* </ApolloProvider> */}
     </UserProvider>
   );
 }
