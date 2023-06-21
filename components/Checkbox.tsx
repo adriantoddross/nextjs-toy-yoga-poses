@@ -5,7 +5,7 @@ export default function Checkbox({ title, onCheckboxSelected }) {
 
   const handleOnChange = (e) => {
     setChecked(!isChecked);
-    onCheckboxSelected(e.target.name);
+    onCheckboxSelected({ title: e.target.name, isChecked: !isChecked });
   };
 
   return (
