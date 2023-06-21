@@ -1,11 +1,9 @@
-import YogaPoses from "components/yogaPoses";
-import Link from "next/link";
-import Header from "components/header";
 import { useState } from "react";
 import Sidebar from "components/Sidebar";
 import PoseCard from "components/PoseCard";
-import { yogaPosesData } from "util/yogaPosesData";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
+import GET_POSES from "lib/gql/queryDefs/getPoses";
+import { Pose } from "lib/typeDefs/types";
 
 export default function Home({ exercises }) {
   // Add exercise field to poses table
@@ -20,17 +18,6 @@ export default function Home({ exercises }) {
     setShowPoses(true);
   };
 
-  const GET_POSES = gql`
-    query GET_POSES {
-      poses {
-        id
-        title
-        subtitle
-        image_url
-      }
-    }
-  `;
-
   const { data } = useQuery(GET_POSES);
 
   return (
@@ -41,7 +28,9 @@ export default function Home({ exercises }) {
       />
       <main>
         {showPoses
-          ? data?.poses.map((pose) => <PoseCard pose={pose} />)
+          ? data?.poses.map((pose: Pose) => (
+              <PoseCard key={pose.id} pose={pose} />
+            ))
           : "Select an exercise to see your recommended yoga poses"}
       </main>
     </div>
