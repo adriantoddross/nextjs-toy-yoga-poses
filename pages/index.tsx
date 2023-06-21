@@ -5,9 +5,10 @@ import { useState } from "react";
 import Sidebar from "components/Sidebar";
 import PoseCard from "components/PoseCard";
 import { yogaPosesData } from "util/yogaPosesData";
+import { useQuery, gql } from "@apollo/client";
 
 export default function Home({ exercises }) {
-  const [showPoses, setShowPoses] = useState(false);
+  const [showPoses, setShowPoses] = useState(true);
   const [filteredExercises, setFilteredExercises] = useState([]);
 
   const handleExerciseSelected = (exercise) => {
@@ -15,6 +16,19 @@ export default function Home({ exercises }) {
     setFilteredExercises(filtered);
     setShowPoses(true);
   };
+
+  const GET_POSES = gql`
+    query GET_POSES {
+      poses {
+        id
+        title
+        subtitle
+        image_url
+      }
+    }
+  `;
+
+  const { data } = useQuery(GET_POSES);
 
   return (
     <div>
@@ -24,7 +38,7 @@ export default function Home({ exercises }) {
       />
       <main>
         {showPoses
-          ? yogaPosesData.map(({ title }) => <PoseCard title={title} />)
+          ? data?.poses.map((pose) => <PoseCard pose={pose} />)
           : "Select an exercise to see your recommended yoga poses"}
       </main>
     </div>
