@@ -8,6 +8,9 @@ import { yogaPosesData } from "util/yogaPosesData";
 import { useQuery, gql } from "@apollo/client";
 
 export default function Home({ exercises }) {
+  // Add exercise field to poses table
+  // Check if exercise id matches a pose's exercise id
+
   const [showPoses, setShowPoses] = useState(true);
   const [filteredExercises, setFilteredExercises] = useState([]);
 
