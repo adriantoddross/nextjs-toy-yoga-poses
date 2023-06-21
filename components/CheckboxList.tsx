@@ -1,7 +1,17 @@
 import { useState } from "react";
 import Checkbox from "./Checkbox";
 
-export default function CheckboxList({ exercises }) {
+type Exercise = {
+  _typename: string;
+  id: number;
+  title: string;
+};
+
+type Props = {
+  exercises: Exercise[];
+};
+
+export default function CheckboxList({ exercises }: Props) {
   const [checked, setChecked] = useState([]);
 
   const onExerciseSelected = (exercise) => {
@@ -16,9 +26,9 @@ export default function CheckboxList({ exercises }) {
       </div>
 
       <div>
-        {exercises?.map((title) => (
+        {exercises?.map(({ id, title }: Exercise) => (
           <Checkbox
-            key={title}
+            key={id}
             title={title}
             onCheckboxSelected={onExerciseSelected}
           />
