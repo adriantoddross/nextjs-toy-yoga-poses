@@ -5,17 +5,35 @@ type Exercise = {
   _typename: string;
   id: number;
   title: string;
+  isChecked?: boolean;
 };
 
 type Props = {
   exercises: Exercise[];
+  handleExerciseSelected: (exercise) => any;
 };
 
-export default function CheckboxList({ exercises }: Props) {
+export default function CheckboxList({
+  exercises,
+  handleExerciseSelected,
+}: Props) {
   const [checked, setChecked] = useState([]);
 
-  const onExerciseSelected = (exercise) => {
-    console.log(`${exercise} checkbox clicked`);
+  const onExerciseSelected = (exercise: Exercise) => {
+    const filters = [...checked];
+
+    if (exercise.isChecked && !filters.includes(exercise.title)) {
+      filters.push(exercise.title);
+      setChecked(filters);
+    }
+    // else {
+    //   console.log("removing filter!");
+    //   const selectedFilters = filters.filter(
+    //     (exercise) => exercise.title !== exercise.title
+    //   );
+    //   console.log(selectedFilters);
+    // }
+    // handleExerciseSelected(filters);
   };
 
   return (
