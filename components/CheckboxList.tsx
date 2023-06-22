@@ -20,20 +20,20 @@ export default function CheckboxList({
   const [checked, setChecked] = useState([]);
 
   const onExerciseSelected = (exercise: Exercise) => {
-    const filters = [...checked];
+    const filters = [...checked]; // rename this for clarity
 
     if (exercise.isChecked && !filters.includes(exercise.title)) {
       filters.push(exercise.title);
       setChecked(filters);
+      // handleExerciseSelected(filters);
+      // pass filters up to Sidebar
     }
-    // else {
-    //   console.log("removing filter!");
-    //   const selectedFilters = filters.filter(
-    //     (exercise) => exercise.title !== exercise.title
-    //   );
-    //   console.log(selectedFilters);
-    // }
-    // handleExerciseSelected(filters);
+
+    if (!exercise.isChecked) {
+      setChecked(filters.filter((title) => title !== exercise.title));
+      // handleExerciseSelected(filters);
+      // pass filters up to Sidebar
+    }
   };
 
   return (
