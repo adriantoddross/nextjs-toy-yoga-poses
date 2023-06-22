@@ -1,39 +1,19 @@
-import { useState } from "react";
 import Checkbox from "./Checkbox";
-
-type Exercise = {
-  _typename: string;
-  id: number;
-  title: string;
-  isChecked?: boolean;
-};
+import { Exercise } from "lib/typeDefs/types";
 
 type Props = {
   exercises: Exercise[];
-  handleExerciseSelected: (exercise) => any;
+  handleExerciseSelected: (exercise: Exercise["id"], checked: boolean) => void;
+  filteredExercises: number[];
 };
 
 export default function CheckboxList({
   exercises,
   handleExerciseSelected,
+  filteredExercises,
 }: Props) {
-  const [checked, setChecked] = useState([]);
-
-  const onExerciseSelected = (exercise: Exercise) => {
-    const filters = [...checked]; // rename this for clarity
-
-    if (exercise.isChecked && !filters.includes(exercise.title)) {
-      filters.push(exercise.title);
-      setChecked(filters);
-      // handleExerciseSelected(filters);
-      // pass filters up to Sidebar
-    }
-
-    if (!exercise.isChecked) {
-      setChecked(filters.filter((title) => title !== exercise.title));
-      // handleExerciseSelected(filters);
-      // pass filters up to Sidebar
-    }
+  const onExerciseSelected = ({ id, checked }) => {
+    handleExerciseSelected(id, checked);
   };
 
   return (
@@ -48,7 +28,9 @@ export default function CheckboxList({
           <Checkbox
             key={id}
             title={title}
+            id={id}
             onCheckboxSelected={onExerciseSelected}
+            checked={filteredExercises.includes(id)}
           />
         ))}
       </div>
