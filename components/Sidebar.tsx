@@ -3,12 +3,27 @@ import CheckboxList from "./CheckboxList";
 import { useQuery } from "@apollo/client";
 import GET_EXERCISES from "lib/gql/queryDefs/getExercises";
 
-export default function Sidebar() {
-  // { exercises, onExerciseSelected }
-  // onExerciseSelected helper function to filter & display YogaPosesCards
+type Props = {
+  handleFiltersSelected: (id: number[]) => void;
+  filteredExercises: number[];
+};
 
-  const handleFilterOptions = (e) => console.log(e);
-  // This callback will filter out the exercises based on the filters selected
+export default function Sidebar({
+  handleFiltersSelected,
+  filteredExercises,
+}: Props) {
+  const handleFilterOptions = (id: number, checked: boolean) => {
+    let updatedFilteredExercises = [...filteredExercises];
+
+    if (checked) {
+      updatedFilteredExercises.push(id);
+    } else {
+      updatedFilteredExercises = filteredExercises.filter(
+        (exercise) => exercise !== id
+      );
+    }
+    handleFiltersSelected(updatedFilteredExercises);
+  };
 
   const { data } = useQuery(GET_EXERCISES);
 
@@ -18,7 +33,7 @@ export default function Sidebar() {
       <CheckboxList
         exercises={data?.exercise}
         handleExerciseSelected={handleFilterOptions}
-        // handleExerciseSelected should be renamed for clarity
+        filteredExercises={filteredExercises}
       />
     </div>
   );
