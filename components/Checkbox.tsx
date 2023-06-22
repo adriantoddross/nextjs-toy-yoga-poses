@@ -1,11 +1,8 @@
 import { useState } from "react";
 
-export default function Checkbox({ title, onCheckboxSelected }) {
-  const [isChecked, setChecked] = useState(false);
-
+export default function Checkbox({ id, title, onCheckboxSelected, checked }) {
   const handleOnChange = (e) => {
-    setChecked(!isChecked);
-    onCheckboxSelected({ title: e.target.name, isChecked: !isChecked });
+    onCheckboxSelected({ title, id, checked: !checked });
   };
 
   return (
@@ -16,7 +13,7 @@ export default function Checkbox({ title, onCheckboxSelected }) {
           id={title}
           name={title}
           onChange={handleOnChange}
-          checked={isChecked}
+          checked={checked}
         />
         <label htmlFor={title}>{title}</label>
       </div>
