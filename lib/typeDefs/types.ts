@@ -5,4 +5,11 @@ type Pose = {
   image_url: string;
 };
 
-export type { Pose };
+type Exercise = {
+  _typename: string;
+  id: number;
+  title: string;
+  isChecked?: boolean;
+};
+
+export type { Pose, Exercise };
