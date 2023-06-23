@@ -48,8 +48,8 @@ const teams = [
   { id: 3, name: "Workcation", href: "#", initial: "W", current: false },
 ];
 const userNavigation = [
-  { name: "Your profile", href: "#" },
-  { name: "Sign out", href: "#" },
+  { name: "Your profile", href: "/profile" },
+  { name: "Logout", href: "/api/auth/logout" },
 ];
 
 function classNames(...classes) {
@@ -249,8 +249,11 @@ export default function Example() {
                   </ul>
                 </li>
                 <li>
+                  <div className="text-sm font-bold leading-6 text-indigo-200">
+                    Filters
+                  </div>
                   <div className="text-xs font-semibold leading-6 text-indigo-200">
-                    Your teams
+                    By exercise
                   </div>
                   <ul role="list" className="-mx-2 mt-2 space-y-1">
                     {teams.map((team) => (
