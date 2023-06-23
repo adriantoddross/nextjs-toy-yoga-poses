@@ -1,63 +1,10 @@
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
 import { Fragment, useState } from "react";
-import { Dialog, Menu, Transition } from "@headlessui/react";
-import {
-  Bars3Icon,
-  BellIcon,
-  CalendarIcon,
-  ChartPieIcon,
-  Cog6ToothIcon,
-  DocumentDuplicateIcon,
-  FolderIcon,
-  HomeIcon,
-  UsersIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
-import {
-  ChevronDownIcon,
-  MagnifyingGlassIcon,
-} from "@heroicons/react/20/solid";
+import { Dialog, Transition } from "@headlessui/react";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+
 import DesktopSidebar from "components/DesktopSidebar";
 import MobileSidebar from "components/MobileSidebar";
 import ProfileHeader from "components/ProfileHeader";
-
-const navigation = [
-  { name: "Home", href: "/", icon: HomeIcon, current: true },
-  { name: "Login", href: "/api/auth/login", icon: UsersIcon, current: false },
-  {
-    name: "Logout",
-    href: "/api/auth/logout",
-    icon: FolderIcon,
-    current: false,
-  },
-  { name: "Profile", href: "/profile", icon: CalendarIcon, current: false },
-];
-const teams = [
-  { id: 1, name: "Heroicons", href: "#", initial: "H", current: false },
-  { id: 2, name: "Tailwind Labs", href: "#", initial: "T", current: false },
-  { id: 3, name: "Workcation", href: "#", initial: "W", current: false },
-];
-const userNavigation = [
-  { name: "Your profile", href: "/profile" },
-  { name: "Logout", href: "/api/auth/logout" },
-];
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
 
 export default function Example() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -125,7 +72,6 @@ export default function Example() {
                       </button>
                     </div>
                   </Transition.Child>
-                  {/* Sidebar component, swap this element with another sidebar if you like */}
                   <MobileSidebar />
                 </Dialog.Panel>
               </Transition.Child>
@@ -160,7 +106,9 @@ export default function Example() {
           </div>
 
           <main className="py-10">
-            <div className="px-4 sm:px-6 lg:px-8">{/* Your content */}</div>
+            <div className="px-4 sm:px-6 lg:px-8">
+              {/* Your content */} Pose cards go here
+            </div>
           </main>
         </div>
       </div>
