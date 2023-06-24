@@ -6,17 +6,18 @@ export default function Checkbox({ id, title, onCheckboxSelected, checked }) {
   };
 
   return (
-    <div>
-      <div key={title}>
-        <input
-          type="checkbox"
-          id={title}
-          name={title}
-          onChange={handleOnChange}
-          checked={checked}
-        />
-        <label htmlFor={title}>{title}</label>
-      </div>
+    <div
+      key={title}
+      className="flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+    >
+      <input
+        type="checkbox"
+        id={title}
+        name={title}
+        onChange={handleOnChange}
+        checked={checked}
+      />
+      <label htmlFor={title}>{title}</label>
     </div>
   );
 }

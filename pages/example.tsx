@@ -1,5 +1,8 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
+import { useQuery } from "@apollo/client";
 import { Dialog, Transition } from "@headlessui/react";
+import GET_EXERCISES from "lib/gql/queryDefs/getExercises";
+import GET_POSES from "lib/gql/queryDefs/getPoses";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
 import DesktopSidebar from "components/DesktopSidebar";
@@ -8,6 +11,20 @@ import ProfileHeader from "components/ProfileHeader";
 
 export default function Example() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [showPoses, setShowPoses] = useState(true);
+  const [filteredExercises, setFilteredExercises] = useState<number[]>([]);
+
+  const { data: exerciseData } = useQuery(GET_EXERCISES);
+  const { data } = useQuery(GET_POSES, {
+    variables: { exerciseIds: filteredExercises },
+  });
+
+  useEffect(() => {
+    if (exerciseData) {
+      const ids = exerciseData.exercise.map((exercise) => exercise.id);
+      setFilteredExercises(ids);
+    }
+  }, [exerciseData]);
 
   return (
     <>
@@ -79,7 +96,10 @@ export default function Example() {
           </Dialog>
         </Transition.Root>
 
-        <DesktopSidebar />
+        <DesktopSidebar
+          filteredExercises={filteredExercises}
+          handleFiltersSelected={(filters) => setFilteredExercises(filters)}
+        />
 
         <div className="lg:pl-72">
           <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">

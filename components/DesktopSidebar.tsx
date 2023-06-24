@@ -1,14 +1,12 @@
+import { useQuery } from "@apollo/client";
+import CheckboxList from "./CheckboxList";
+import GET_EXERCISES from "lib/gql/queryDefs/getExercises";
+import classNames from "util/classnames";
 import {
-  Bars3Icon,
-  BellIcon,
   CalendarIcon,
-  ChartPieIcon,
-  Cog6ToothIcon,
-  DocumentDuplicateIcon,
   FolderIcon,
   HomeIcon,
   UsersIcon,
-  XMarkIcon,
 } from "@heroicons/react/24/outline";
 
 const navigation = [
@@ -32,11 +30,30 @@ const userNavigation = [
   { name: "Logout", href: "/api/auth/logout" },
 ];
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
+type Props = {
+  handleFiltersSelected: (id: number[]) => void;
+  filteredExercises: number[];
+};
 
-export default function DesktopSidebar() {
+export default function DesktopSidebar({
+  handleFiltersSelected,
+  filteredExercises,
+}: Props) {
+  const handleFilterOptions = (id: number, checked: boolean) => {
+    let updatedFilteredExercises = [...filteredExercises];
+
+    if (checked) {
+      updatedFilteredExercises.push(id);
+    } else {
+      updatedFilteredExercises = filteredExercises.filter(
+        (exercise) => exercise !== id
+      );
+    }
+    handleFiltersSelected(updatedFilteredExercises);
+  };
+
+  const { data: allExercises } = useQuery(GET_EXERCISES);
+
   return (
     <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
       {/* Sidebar component, swap this element with another sidebar if you like */}
@@ -82,29 +99,17 @@ export default function DesktopSidebar() {
               <div className="text-sm font-bold leading-6 text-indigo-200">
                 Filters
               </div>
-              <div className="text-xs font-semibold leading-6 text-indigo-200">
-                By exercise
-              </div>
-              <ul role="list" className="-mx-2 mt-2 space-y-1">
-                {teams.map((team) => (
-                  <li key={team.name}>
-                    <a
-                      href={team.href}
-                      className={classNames(
-                        team.current
-                          ? "bg-indigo-700 text-white"
-                          : "text-indigo-200 hover:text-white hover:bg-indigo-700",
-                        "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
-                      )}
-                    >
-                      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-indigo-400 bg-indigo-500 text-[0.625rem] font-medium text-white">
-                        {team.initial}
-                      </span>
-                      <span className="truncate">{team.name}</span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
+              <fieldset>
+                <legend className="text-xs font-semibold leading-6 text-indigo-200">
+                  By exercise
+                </legend>
+                <div>{/* <button type="button">Reset</button> */}</div>
+                <CheckboxList
+                  exercises={allExercises?.exercise}
+                  handleExerciseSelected={handleFilterOptions}
+                  filteredExercises={filteredExercises}
+                />
+              </fieldset>
             </li>
           </ul>
         </nav>
