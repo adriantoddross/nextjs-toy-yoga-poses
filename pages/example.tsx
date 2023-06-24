@@ -3,11 +3,13 @@ import { useQuery } from "@apollo/client";
 import { Dialog, Transition } from "@headlessui/react";
 import GET_EXERCISES from "lib/gql/queryDefs/getExercises";
 import GET_POSES from "lib/gql/queryDefs/getPoses";
+import { Pose } from "lib/typeDefs/types";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
 import DesktopSidebar from "components/DesktopSidebar";
 import MobileSidebar from "components/MobileSidebar";
 import ProfileHeader from "components/ProfileHeader";
+import PoseCard from "components/PoseCard";
 
 export default function Example() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -127,7 +129,11 @@ export default function Example() {
 
           <main className="py-10">
             <div className="px-4 sm:px-6 lg:px-8">
-              {/* Your content */} Pose cards go here
+              {showPoses
+                ? data?.poses.map((pose: Pose) => (
+                    <PoseCard key={pose.id} pose={pose} />
+                  ))
+                : "Select an exercise to see your recommended yoga poses"}
             </div>
           </main>
         </div>
