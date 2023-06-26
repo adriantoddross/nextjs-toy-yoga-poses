@@ -15,6 +15,7 @@
     "@graphql-tools/schema": "6.0.18",
     "@headlessui/react": "^1.7.14",
     "@heroicons/react": "^2.0.18",
+    "@tailwindcss/forms": "^0.5.3",
     "autoprefixer": "^10.4.14",
     "graphql": "15.6.0",
     "graphql-codegen": "^0.4.0",
