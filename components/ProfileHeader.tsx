@@ -10,7 +10,7 @@ const userNavigation = [
   { name: "Logout", href: "/api/auth/logout" },
 ];
 
-export default function ProfileHeader({ name, image_url }) {
+export default function ProfileHeader() {
   const { user, error, isLoading } = useUser();
 
   if (user) {
