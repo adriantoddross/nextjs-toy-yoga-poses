@@ -17,23 +17,16 @@ export default function CheckboxList({
   };
 
   return (
-    <fieldset>
-      <div>
-        <legend>By exercise:</legend>
-        <button type="button">Reset</button>
-      </div>
-
-      <div>
-        {exercises?.map(({ id, title }: Exercise) => (
-          <Checkbox
-            key={id}
-            title={title}
-            id={id}
-            onCheckboxSelected={onExerciseSelected}
-            checked={filteredExercises.includes(id)}
-          />
-        ))}
-      </div>
-    </fieldset>
+    <div className="-mx-2 mt-2 space-y-1">
+      {exercises?.map(({ id, title }: Exercise) => (
+        <Checkbox
+          key={id}
+          title={title}
+          id={id}
+          onCheckboxSelected={onExerciseSelected}
+          checked={filteredExercises.includes(id)}
+        />
+      ))}
+    </div>
   );
 }
