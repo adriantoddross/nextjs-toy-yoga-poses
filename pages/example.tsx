@@ -91,7 +91,12 @@ export default function Example() {
                       </button>
                     </div>
                   </Transition.Child>
-                  <MobileSidebar />
+                  <MobileSidebar
+                    filteredExercises={filteredExercises}
+                    handleFiltersSelected={(filters) =>
+                      setFilteredExercises(filters)
+                    }
+                  />
                 </Dialog.Panel>
               </Transition.Child>
             </div>

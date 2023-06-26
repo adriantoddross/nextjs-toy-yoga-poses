@@ -20,11 +20,7 @@ const navigation = [
   },
   { name: "Profile", href: "/profile", icon: CalendarIcon, current: false },
 ];
-const teams = [
-  { id: 1, name: "Heroicons", href: "#", initial: "H", current: false },
-  { id: 2, name: "Tailwind Labs", href: "#", initial: "T", current: false },
-  { id: 3, name: "Workcation", href: "#", initial: "W", current: false },
-];
+
 const userNavigation = [
   { name: "Your profile", href: "/profile" },
   { name: "Logout", href: "/api/auth/logout" },
