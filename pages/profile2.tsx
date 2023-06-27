@@ -1,4 +1,5 @@
 import { Fragment, useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import { useQuery } from "@apollo/client";
 import { Dialog, Transition } from "@headlessui/react";
 import GET_EXERCISES from "lib/gql/queryDefs/getExercises";
@@ -19,8 +20,11 @@ export default function Example() {
   const { data } = useQuery(GET_POSES, {
     variables: { exerciseIds: filteredExercises },
   });
+  const { push } = useRouter();
 
   useEffect(() => {
+    if (!user) push("/");
+
     if (exerciseData) {
       const ids = exerciseData.exercise.map((exercise) => exercise.id);
       setFilteredExercises(ids);
