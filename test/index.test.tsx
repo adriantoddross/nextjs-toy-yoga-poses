@@ -1,37 +1,35 @@
-import { InMemoryCache, gql } from '@apollo/client'
-import React from 'react'
-import Index from '../pages'
-import renderer from 'react-test-renderer'
-import { MockedProvider } from '@apollo/client/testing'
+import { render } from "@testing-library/react";
+import Example from "../pages";
+import gql from "graphql-tag";
 
-const cache = new InMemoryCache()
-cache.writeQuery({
-  query: gql`
-    query Viewer {
-      viewer {
+jest.mock("../lib/gql/queryDefs/getExercises", () => ({
+  GET_EXERCISES: () => gql`
+    query Get_Exercises {
+      exercise {
         id
-        name
-        status
+        title
       }
     }
   `,
-  data: {
-    viewer: {
-      __typename: 'User',
-      id: 'Baa',
-      name: 'Baa',
-      status: 'Healthy',
-    },
-  },
-})
+}));
 
-describe('Index', () => {
-  it('renders the html we want', async () => {
-    const component = renderer.create(
-      <MockedProvider cache={cache}>
-        <Index />
-      </MockedProvider>
-    )
-    expect(component.toJSON()).toMatchSnapshot()
-  })
-})
+jest.mock("../lib/gql/queryDefs/getPoses", () => ({
+  GET_POSES: () => gql`
+    query GET_POSES($exerciseIds: [bigint!]) {
+      poses(where: { exercise: { _in: $exerciseIds } }) {
+        id
+        title
+        subtitle
+        image_url
+      }
+    }
+  `,
+}));
+
+describe("Yoga app", () => {
+  it("filters yoga poses", async () => {
+    const page = render(<Example />);
+
+    expect(page.getByText("Filters")).toBeInTheDocument();
+  });
+});
