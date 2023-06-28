@@ -1,9 +1,5 @@
 import { Fragment, useState, useEffect } from "react";
-import { useRouter } from "next/router";
-import { useQuery } from "@apollo/client";
 import { Dialog, Transition } from "@headlessui/react";
-import GET_EXERCISES from "lib/gql/queryDefs/getExercises";
-import GET_POSES from "lib/gql/queryDefs/getPoses";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useUser } from "@auth0/nextjs-auth0/client";
 
@@ -13,23 +9,6 @@ import ProfileHeader from "components/ProfileHeader";
 
 export default function Example() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [showPoses, setShowPoses] = useState(true);
-  const [filteredExercises, setFilteredExercises] = useState<number[]>([]);
-
-  const { data: exerciseData } = useQuery(GET_EXERCISES);
-  const { data } = useQuery(GET_POSES, {
-    variables: { exerciseIds: filteredExercises },
-  });
-  const { push } = useRouter();
-
-  useEffect(() => {
-    if (!user) push("/");
-
-    if (exerciseData) {
-      const ids = exerciseData.exercise.map((exercise) => exercise.id);
-      setFilteredExercises(ids);
-    }
-  }, [exerciseData]);
 
   const { user, error, isLoading } = useUser();
 
@@ -91,22 +70,14 @@ export default function Example() {
                     </button>
                   </div>
                 </Transition.Child>
-                <MobileSidebar
-                  filteredExercises={filteredExercises}
-                  handleFiltersSelected={(filters) =>
-                    setFilteredExercises(filters)
-                  }
-                />
+                <MobileSidebar />
               </Dialog.Panel>
             </Transition.Child>
           </div>
         </Dialog>
       </Transition.Root>
 
-      <DesktopSidebar
-        filteredExercises={filteredExercises}
-        handleFiltersSelected={(filters) => setFilteredExercises(filters)}
-      />
+      <DesktopSidebar />
 
       <div className="lg:pl-72">
         <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
@@ -135,20 +106,19 @@ export default function Example() {
         <main className="py-10">
           <div className="px-4 sm:px-6 lg:px-8">
             <div>
-              <p>
-                Soon, you'll be able to save searches and save your favorite
-                yoga poses!
-              </p>
-              <p>This feature is still under development and coming soon.</p>
-            </div>
-            <hr />
-            <div>
-              {user && (
+              {user ? (
                 <div>
-                  <h2>Your profile</h2>
-                  <p>{user.name}</p>
-                  <p>{user.email}</p>
-                  <img src={user.picture} alt={user.name} />
+                  <p>
+                    Soon, you'll be able to save searches and save your favorite
+                    yoga poses!
+                  </p>
+                  <p>
+                    This feature is still under development and coming soon.
+                  </p>
+                </div>
+              ) : (
+                <div>
+                  <p>Please login to view this page.</p>
                 </div>
               )}
             </div>
