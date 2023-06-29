@@ -2,29 +2,13 @@ import { useQuery } from "@apollo/client";
 import CheckboxList from "./CheckboxList";
 import GET_EXERCISES from "lib/gql/queryDefs/getExercises";
 import classNames from "util/classnames";
-import {
-  CalendarIcon,
-  FolderIcon,
-  HomeIcon,
-  UsersIcon,
-} from "@heroicons/react/24/outline";
-
-const navigation = [{ name: "Home", href: "/", icon: HomeIcon, current: true }];
-
-const userNavigation = [
-  { name: "Your profile", href: "/profile" },
-  { name: "Logout", href: "/api/auth/logout" },
-];
-
-type Props = {
-  handleFiltersSelected?: (id: number[]) => void;
-  filteredExercises?: number[];
-};
+import navigation from "util/navigationLinks";
+import { NavigationProps } from "lib/typeDefs/types";
 
 export default function DesktopSidebar({
   handleFiltersSelected,
   filteredExercises,
-}: Props) {
+}: NavigationProps) {
   const handleFilterOptions = (id: number, checked: boolean) => {
     let updatedFilteredExercises = [...filteredExercises];
 
