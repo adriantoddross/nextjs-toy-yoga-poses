@@ -7,7 +7,7 @@ type Props = {
   isFavorited?: boolean;
 };
 
-export default function PoseCard2({ pose, isFavorited }: Props) {
+export default function PoseCard({ pose, isFavorited }: Props) {
   const { title, subtitle, image_url } = pose;
 
   const toggleFavorite = () => console.log(`Favoriting ${title} pose`);
