@@ -12,4 +12,9 @@ type Exercise = {
   isChecked?: boolean;
 };
 
-export type { Pose, Exercise };
+type NavigationProps = {
+  handleFiltersSelected?: (id: number[]) => void;
+  filteredExercises?: number[];
+};
+
+export type { Pose, Exercise, NavigationProps };

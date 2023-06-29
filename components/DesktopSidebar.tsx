@@ -2,39 +2,13 @@ import { useQuery } from "@apollo/client";
 import CheckboxList from "./CheckboxList";
 import GET_EXERCISES from "lib/gql/queryDefs/getExercises";
 import classNames from "util/classnames";
-import {
-  CalendarIcon,
-  FolderIcon,
-  HomeIcon,
-  UsersIcon,
-} from "@heroicons/react/24/outline";
-
-const navigation = [
-  { name: "Home", href: "/", icon: HomeIcon, current: true },
-  { name: "Login", href: "/api/auth/login", icon: UsersIcon, current: false },
-  {
-    name: "Logout",
-    href: "/api/auth/logout",
-    icon: FolderIcon,
-    current: false,
-  },
-  { name: "Profile", href: "/profile", icon: CalendarIcon, current: false },
-];
-
-const userNavigation = [
-  { name: "Your profile", href: "/profile" },
-  { name: "Logout", href: "/api/auth/logout" },
-];
-
-type Props = {
-  handleFiltersSelected: (id: number[]) => void;
-  filteredExercises: number[];
-};
+import navigation from "util/navigationLinks";
+import { NavigationProps } from "lib/typeDefs/types";
 
 export default function DesktopSidebar({
   handleFiltersSelected,
   filteredExercises,
-}: Props) {
+}: NavigationProps) {
   const handleFilterOptions = (id: number, checked: boolean) => {
     let updatedFilteredExercises = [...filteredExercises];
 
@@ -91,22 +65,24 @@ export default function DesktopSidebar({
                 ))}
               </ul>
             </li>
-            <li>
-              <div className="text-sm font-bold leading-6 text-indigo-200">
-                Filters
-              </div>
-              <fieldset>
-                <legend className="text-xs font-semibold leading-6 text-indigo-200">
-                  By exercise
-                </legend>
-                <div>{/* <button type="button">Reset</button> */}</div>
-                <CheckboxList
-                  exercises={allExercises?.exercise}
-                  handleExerciseSelected={handleFilterOptions}
-                  filteredExercises={filteredExercises}
-                />
-              </fieldset>
-            </li>
+            {filteredExercises && (
+              <li>
+                <div className="text-sm font-bold leading-6 text-indigo-200">
+                  Filters
+                </div>
+                <fieldset>
+                  <legend className="text-xs font-semibold leading-6 text-indigo-200">
+                    By exercise
+                  </legend>
+                  <div>{/* <button type="button">Reset</button> */}</div>
+                  <CheckboxList
+                    exercises={allExercises?.exercise}
+                    handleExerciseSelected={handleFilterOptions}
+                    filteredExercises={filteredExercises}
+                  />
+                </fieldset>
+              </li>
+            )}
           </ul>
         </nav>
       </div>
