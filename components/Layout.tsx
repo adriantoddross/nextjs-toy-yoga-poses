@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useQuery } from "@apollo/client";
 import GET_EXERCISES from "lib/gql/queryDefs/getExercises";
 import GET_POSES from "lib/gql/queryDefs/getPoses";
@@ -7,16 +7,14 @@ import { Bars3Icon } from "@heroicons/react/24/outline";
 import DesktopSidebar from "components/DesktopSidebar";
 import MobileSidebar from "components/MobileSidebar";
 import ProfileHeader from "components/ProfileHeader";
+import { FilterPosesContext } from "context/FilterContext";
 
 export default function Layout({ children }) {
+  const { setFilteredExercises } = useContext(FilterPosesContext);
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [showPoses, setShowPoses] = useState(true);
-  const [filteredExercises, setFilteredExercises] = useState<number[]>([]);
 
   const { data: exerciseData } = useQuery(GET_EXERCISES);
-  const { data } = useQuery(GET_POSES, {
-    variables: { exerciseIds: filteredExercises },
-  });
 
   useEffect(() => {
     if (exerciseData) {
@@ -28,16 +26,11 @@ export default function Layout({ children }) {
   return (
     <div>
       <MobileSidebar
-        handleFiltersSelected={(filters) => setFilteredExercises(filters)}
-        filteredExercises={filteredExercises}
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
       />
 
-      <DesktopSidebar
-        filteredExercises={filteredExercises}
-        handleFiltersSelected={(filters) => setFilteredExercises(filters)}
-      />
+      <DesktopSidebar />
 
       <div className="lg:pl-72">
         <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
