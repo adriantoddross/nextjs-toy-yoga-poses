@@ -6,19 +6,18 @@ import navigation from "util/navigationLinks";
 import { NavigationProps } from "lib/typeDefs/types";
 import { Transition, Dialog } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { Fragment } from "react";
+import { Fragment, useContext } from "react";
+import { FilterPosesContext } from "context/FilterContext";
 
 type Props = {
   sidebarOpen: boolean;
   setSidebarOpen: (bool: boolean) => void;
 } & NavigationProps;
 
-export default function MobileSidebar({
-  handleFiltersSelected,
-  filteredExercises,
-  sidebarOpen,
-  setSidebarOpen,
-}: Props) {
+export default function MobileSidebar({ sidebarOpen, setSidebarOpen }: Props) {
+  const { filteredExercises, setFilteredExercises } =
+    useContext(FilterPosesContext);
+
   const handleFilterOptions = (id: number, checked: boolean) => {
     let updatedFilteredExercises = [...filteredExercises];
 
@@ -29,7 +28,7 @@ export default function MobileSidebar({
         (exercise) => exercise !== id
       );
     }
-    handleFiltersSelected(updatedFilteredExercises);
+    setFilteredExercises(updatedFilteredExercises);
   };
 
   const { data: allExercises } = useQuery(GET_EXERCISES);

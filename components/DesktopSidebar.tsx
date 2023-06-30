@@ -4,11 +4,13 @@ import GET_EXERCISES from "lib/gql/queryDefs/getExercises";
 import classNames from "util/classnames";
 import navigation from "util/navigationLinks";
 import { NavigationProps } from "lib/typeDefs/types";
+import { FilterPosesContext } from "context/FilterContext";
+import { useContext } from "react";
 
-export default function DesktopSidebar({
-  handleFiltersSelected,
-  filteredExercises,
-}: NavigationProps) {
+export default function DesktopSidebar({}: NavigationProps) {
+  const { filteredExercises, setFilteredExercises } =
+    useContext(FilterPosesContext);
+
   const handleFilterOptions = (id: number, checked: boolean) => {
     let updatedFilteredExercises = [...filteredExercises];
 
@@ -19,7 +21,7 @@ export default function DesktopSidebar({
         (exercise) => exercise !== id
       );
     }
-    handleFiltersSelected(updatedFilteredExercises);
+    setFilteredExercises(updatedFilteredExercises);
   };
 
   const { data: allExercises } = useQuery(GET_EXERCISES);
