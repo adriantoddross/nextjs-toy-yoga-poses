@@ -1,7 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { useQuery } from "@apollo/client";
 import GET_EXERCISES from "lib/gql/queryDefs/getExercises";
-import GET_POSES from "lib/gql/queryDefs/getPoses";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 
 import DesktopSidebar from "components/DesktopSidebar";
@@ -27,7 +26,7 @@ export default function Layout({ children }) {
     <div>
       <MobileSidebar
         sidebarOpen={sidebarOpen}
-        setSidebarOpen={setSidebarOpen}
+        setSidebarOpen={() => setSidebarOpen(false)}
       />
 
       <DesktopSidebar />

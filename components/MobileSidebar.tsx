@@ -1,18 +1,12 @@
-import { useQuery } from "@apollo/client";
-import CheckboxList from "./CheckboxList";
-import GET_EXERCISES from "lib/gql/queryDefs/getExercises";
-import classNames from "util/classnames";
-import navigation from "util/navigationLinks";
 import { NavigationProps } from "lib/typeDefs/types";
 import { Transition, Dialog } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { Fragment, useContext } from "react";
-import { FilterPosesContext } from "context/FilterContext";
+import { Fragment } from "react";
 import NavigationMenu from "./NavigationMenu";
 
 type Props = {
   sidebarOpen: boolean;
-  setSidebarOpen: (bool: boolean) => void;
+  setSidebarOpen: () => void;
 } & NavigationProps;
 
 export default function MobileSidebar({ sidebarOpen, setSidebarOpen }: Props) {
@@ -21,7 +15,7 @@ export default function MobileSidebar({ sidebarOpen, setSidebarOpen }: Props) {
       <Dialog
         as="div"
         className="relative z-50 lg:hidden"
-        onClose={() => setSidebarOpen}
+        onClose={setSidebarOpen}
       >
         <Transition.Child
           as={Fragment}
@@ -59,7 +53,7 @@ export default function MobileSidebar({ sidebarOpen, setSidebarOpen }: Props) {
                   <button
                     type="button"
                     className="-m-2.5 p-2.5"
-                    onClick={() => setSidebarOpen(false)}
+                    onClick={setSidebarOpen}
                   >
                     <span className="sr-only">Close sidebar</span>
                     <XMarkIcon
