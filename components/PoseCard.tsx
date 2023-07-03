@@ -1,6 +1,8 @@
 import { Pose } from "lib/typeDefs/types";
 import { HeartIcon } from "@heroicons/react/24/outline";
 import { HeartIcon as SolidHeartIcon } from "@heroicons/react/20/solid";
+import { useMutation } from "@apollo/client";
+import ADD_FAVORITE_POSE from "lib/gql/queryDefs/addFavoritePose";
 
 type Props = {
   pose: Pose;
@@ -8,9 +10,14 @@ type Props = {
 };
 
 export default function PoseCard({ pose, isFavorited }: Props) {
+  // Import useUser so we can tell if a user is logged in or not
   const { title, subtitle, image_url } = pose;
 
   const toggleFavorite = () => console.log(`Favoriting ${title} pose`);
+
+  const [addFavoritePose, { data, loading, error }] =
+    useMutation(ADD_FAVORITE_POSE);
+
   return (
     <div>
       <div className="group aspect-h-7 aspect-w-10 block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
@@ -24,6 +31,7 @@ export default function PoseCard({ pose, isFavorited }: Props) {
           className="absolute top-2 left-2 focus:outline-none"
         >
           <span className="sr-only">Favorite</span>
+          {/* Hide these hearts if a user isn't logged in, or prompt them to sign up */}
           {isFavorited ? (
             <SolidHeartIcon
               className="h-5 w-5"
