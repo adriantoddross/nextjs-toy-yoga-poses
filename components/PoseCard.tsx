@@ -2,8 +2,9 @@ import { Pose } from "lib/typeDefs/types";
 import { HeartIcon } from "@heroicons/react/24/outline";
 import { HeartIcon as SolidHeartIcon } from "@heroicons/react/20/solid";
 import { useMutation } from "@apollo/client";
-import ADD_FAVORITE_POSE from "lib/gql/queryDefs/addFavoritePose";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import ADD_FAVORITE_POSE from "lib/gql/queryDefs/addFavoritePose";
+import DELETE_FAVORITE_POSE from "lib/gql/queryDefs/deleteFavoritePose";
 
 type Props = {
   pose: Pose;
@@ -12,9 +13,27 @@ type Props = {
 
 export default function PoseCard({ pose, isFavorited }: Props) {
   const { id, title, subtitle, image_url } = pose;
-  const { user, error: UserError, isLoading } = useUser();
+  const { user, error: UserError, isLoading: UserLoading } = useUser();
 
-  const handleFavoritePose = (
+  const [
+    addFavoritePose,
+    {
+      data: addFavoritePoseData,
+      loading: addFavoritePoseLoading,
+      error: addFavoritePoseError,
+    },
+  ] = useMutation(ADD_FAVORITE_POSE);
+
+  const [
+    removeFavoritePose,
+    {
+      data: removeFavoritePoseData,
+      loading: removeFavoritePoseLoading,
+      error: removeFavoritePoseError,
+    },
+  ] = useMutation(DELETE_FAVORITE_POSE);
+
+  const handleAddFavoritePose = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
@@ -30,8 +49,21 @@ export default function PoseCard({ pose, isFavorited }: Props) {
     }
   };
 
-  const [addFavoritePose, { data, loading, error }] =
-    useMutation(ADD_FAVORITE_POSE);
+  const handleRemoveFavoritePose = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    if (user) {
+      console.log("Removing favorite pose: ", {
+        variables: { pose_id: id, user_id: user?.email },
+      });
+      // removeFavoritePose({
+      //   variables: { user_pose_id: id },
+      // });
+    } else {
+      throw new Error("Log in to remove a favorited pose");
+    }
+  };
 
   return (
     <div>
@@ -42,7 +74,10 @@ export default function PoseCard({ pose, isFavorited }: Props) {
           className="pointer-events-none object-cover group-hover:opacity-75"
         />
         {user ? (
-          <FavoriteButton handleOnClick={handleFavoritePose} />
+          <FavoritePoseButton
+            handleAddFavorite={handleAddFavoritePose}
+            handleRemoveFavorite={handleRemoveFavoritePose}
+          />
         ) : (
           <LogInButton />
         )}
@@ -59,7 +94,23 @@ export default function PoseCard({ pose, isFavorited }: Props) {
   );
 }
 
-const FavoriteButton = ({ handleOnClick }) => {
+const FavoritePoseButton = ({
+  handleAddFavorite,
+  handleRemoveFavorite,
+  isFavorited,
+}: {
+  handleAddFavorite: (e) => void;
+  handleRemoveFavorite: (e) => void;
+  isFavorited?: boolean;
+}) => {
+  return isFavorited ? (
+    <RemoveFavoriteButton handleOnClick={handleRemoveFavorite} />
+  ) : (
+    <AddFavoriteButton handleOnClick={handleAddFavorite} />
+  );
+};
+
+const AddFavoriteButton = ({ handleOnClick }) => {
   return (
     <button
       type="button"
