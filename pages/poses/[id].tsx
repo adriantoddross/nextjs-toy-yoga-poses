@@ -3,7 +3,7 @@ import Layout from "components/Layout";
 import PoseCard from "components/PoseCard";
 import Link from "next/link";
 
-export default function Home() {
+export default function Pose() {
   const router = useRouter();
   const { query } = router;
   const { pathname: previousURL } = query;
