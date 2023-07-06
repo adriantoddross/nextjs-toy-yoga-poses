@@ -5,6 +5,8 @@ import { useMutation } from "@apollo/client";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import ADD_FAVORITE_POSE from "lib/gql/queryDefs/addFavoritePose";
 import DELETE_FAVORITE_POSE from "lib/gql/queryDefs/deleteFavoritePose";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 type Props = {
   pose: Pose;
@@ -12,8 +14,11 @@ type Props = {
 };
 
 export default function PoseCard({ pose, isFavorited }: Props) {
-  const { id, title, subtitle, image_url } = pose;
   const { user, error: UserError, isLoading: UserLoading } = useUser();
+  const router = useRouter();
+
+  const { pathname } = router;
+  const { id, title, subtitle, image_url } = pose;
 
   const [
     addFavoritePose,
@@ -66,7 +71,17 @@ export default function PoseCard({ pose, isFavorited }: Props) {
   };
 
   return (
-    <div>
+    <Link
+      href={{
+        pathname: "/poses/[id]",
+        query: {
+          id: id,
+          pathname: pathname,
+          pose: JSON.stringify(pose),
+        },
+      }}
+    >
+      {/* onClick, send query params to individual page! */}
       <div className="group aspect-h-7 aspect-w-10 block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
         <img
           src={image_url}
@@ -90,7 +105,7 @@ export default function PoseCard({ pose, isFavorited }: Props) {
       <p className="pointer-events-none block text-sm font-medium text-gray-500">
         {subtitle}
       </p>
-    </div>
+    </Link>
   );
 }
 
