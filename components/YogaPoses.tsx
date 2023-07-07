@@ -3,9 +3,10 @@ import PoseCard from "./PoseCard";
 
 type Props = {
   poses: Pose[];
+  favorites: number[];
 };
 
-export default function YogaPoses({ poses }: Props) {
+export default function YogaPoses({ poses, favorites }: Props) {
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       <section>
@@ -23,7 +24,11 @@ export default function YogaPoses({ poses }: Props) {
       >
         {poses.map((pose: Pose) => (
           <li key={pose.title} className="relative">
-            <PoseCard key={pose.id} pose={pose} />
+            <PoseCard
+              key={pose.id}
+              pose={pose}
+              isFavorited={favorites?.includes(pose.id)}
+            />
           </li>
         ))}
       </ul>
