@@ -5,7 +5,6 @@ const GET_FAVORITE_POSES = gql`
     user_pose(where: { user_id: { _eq: $user_id } }) {
       id
       pose_id
-      isFavorited
     }
   }
 `;

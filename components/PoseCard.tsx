@@ -1,12 +1,12 @@
 import { Pose } from "lib/typeDefs/types";
-import { HeartIcon } from "@heroicons/react/24/outline";
-import { HeartIcon as SolidHeartIcon } from "@heroicons/react/20/solid";
 import { useMutation } from "@apollo/client";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import ADD_FAVORITE_POSE from "lib/gql/queryDefs/addFavoritePose";
 import DELETE_FAVORITE_POSE from "lib/gql/queryDefs/deleteFavoritePose";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import FavoritePoseButton from "./FavoriteButton";
+import LogInButton from "./LogInButton";
 
 type Props = {
   pose: Pose;
@@ -43,12 +43,10 @@ export default function PoseCard({ pose, isFavorited }: Props) {
   ) => {
     e.preventDefault();
     if (user) {
-      console.log("Favoriting pose: ", {
-        variables: { pose_id: id, user_id: user?.email },
+      addFavoritePose({
+        variables: { pose_id: id, user_id: user?.sub },
+        refetchQueries: ["getFavoritePoses"],
       });
-      // addFavoritePose({
-      //   variables: { pose_id: id, user_id: user?.email },
-      // });
     } else {
       throw new Error("Log in to favorite a pose");
     }
@@ -59,39 +57,42 @@ export default function PoseCard({ pose, isFavorited }: Props) {
   ) => {
     e.preventDefault();
     if (user) {
-      console.log("Removing favorite pose: ", {
-        variables: { pose_id: id, user_id: user?.email },
+      removeFavoritePose({
+        variables: { user_id: user.sub, pose_id: id },
+        refetchQueries: ["getFavoritePoses"],
       });
-      // removeFavoritePose({
-      //   variables: { user_pose_id: id },
-      // });
     } else {
       throw new Error("Log in to remove a favorited pose");
     }
   };
 
   return (
-    <Link
-      href={{
-        pathname: "/poses/[id]",
-        query: {
-          id: id,
-          pathname: pathname,
-          pose: JSON.stringify(pose),
-        },
-      }}
-    >
+    <div>
       {/* onClick, send query params to individual page! */}
       <div className="group aspect-h-7 aspect-w-10 block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
-        <img
-          src={image_url}
-          alt=""
-          className="pointer-events-none object-cover group-hover:opacity-75"
-        />
+        <Link
+          href={{
+            pathname: "/poses/[id]",
+            query: {
+              id: id,
+              pathname: pathname,
+              pose: JSON.stringify(pose),
+            },
+          }}
+        >
+          <img
+            src={image_url}
+            alt=""
+            className="pointer-events-none object-cover group-hover:opacity-75"
+          />
+        </Link>
         {user ? (
           <FavoritePoseButton
             handleAddFavorite={handleAddFavoritePose}
             handleRemoveFavorite={handleRemoveFavoritePose}
+            isFavorited={isFavorited}
+            isAddingFavoriteDisabled={addFavoritePoseLoading}
+            isRemovingFavoriteDisabled={removeFavoritePoseLoading}
           />
         ) : (
           <LogInButton />
@@ -105,60 +106,6 @@ export default function PoseCard({ pose, isFavorited }: Props) {
       <p className="pointer-events-none block text-sm font-medium text-gray-500">
         {subtitle}
       </p>
-    </Link>
+    </div>
   );
 }
-
-const FavoritePoseButton = ({
-  handleAddFavorite,
-  handleRemoveFavorite,
-  isFavorited,
-}: {
-  handleAddFavorite: (e) => void;
-  handleRemoveFavorite: (e) => void;
-  isFavorited?: boolean;
-}) => {
-  return isFavorited ? (
-    <RemoveFavoriteButton handleOnClick={handleRemoveFavorite} />
-  ) : (
-    <AddFavoriteButton handleOnClick={handleAddFavorite} />
-  );
-};
-
-const AddFavoriteButton = ({ handleOnClick }) => {
-  return (
-    <button
-      type="button"
-      className="absolute top-2 left-2 focus:outline-none"
-      onClick={handleOnClick}
-    >
-      <span className="sr-only">Favorite this pose</span>
-      <HeartIcon className="h-5 w-5" aria-hidden="true" />
-    </button>
-  );
-};
-
-const RemoveFavoriteButton = ({ handleOnClick }) => {
-  return (
-    <button
-      type="button"
-      className="absolute top-2 left-2 focus:outline-none"
-      onClick={handleOnClick}
-    >
-      <span className="sr-only">Remove favorite pose</span>
-      <SolidHeartIcon className="h-5 w-5" aria-hidden="true" />
-    </button>
-  );
-};
-
-const LogInButton = () => {
-  return (
-    <a
-      href="/api/auth/login"
-      className="absolute top-2 left-2 focus:outline-none"
-    >
-      <span className="sr-only">Log in to favorite a pose</span>
-      <HeartIcon className="h-5 w-5" aria-hidden="true" />
-    </a>
-  );
-};
