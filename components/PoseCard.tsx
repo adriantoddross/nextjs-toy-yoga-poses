@@ -1,12 +1,12 @@
 import { Pose } from "lib/typeDefs/types";
-import { HeartIcon } from "@heroicons/react/24/outline";
-import { HeartIcon as SolidHeartIcon } from "@heroicons/react/20/solid";
 import { useMutation } from "@apollo/client";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import ADD_FAVORITE_POSE from "lib/gql/queryDefs/addFavoritePose";
 import DELETE_FAVORITE_POSE from "lib/gql/queryDefs/deleteFavoritePose";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import FavoritePoseButton from "./FavoriteButton";
+import LogInButton from "./LogInButton";
 
 type Props = {
   pose: Pose;
@@ -91,6 +91,8 @@ export default function PoseCard({ pose, isFavorited }: Props) {
             handleAddFavorite={handleAddFavoritePose}
             handleRemoveFavorite={handleRemoveFavoritePose}
             isFavorited={isFavorited}
+            isAddingFavoriteDisabled={addFavoritePoseLoading}
+            isRemovingFavoriteDisabled={removeFavoritePoseLoading}
           />
         ) : (
           <LogInButton />
@@ -107,57 +109,3 @@ export default function PoseCard({ pose, isFavorited }: Props) {
     </div>
   );
 }
-
-const FavoritePoseButton = ({
-  handleAddFavorite,
-  handleRemoveFavorite,
-  isFavorited,
-}: {
-  handleAddFavorite: (e) => void;
-  handleRemoveFavorite: (e) => void;
-  isFavorited?: boolean;
-}) => {
-  return isFavorited ? (
-    <RemoveFavoriteButton handleOnClick={handleRemoveFavorite} />
-  ) : (
-    <AddFavoriteButton handleOnClick={handleAddFavorite} />
-  );
-};
-
-const AddFavoriteButton = ({ handleOnClick }) => {
-  return (
-    <button
-      type="button"
-      className="absolute top-2 left-2 focus:outline-none"
-      onClick={handleOnClick}
-    >
-      <span className="sr-only">Favorite this pose</span>
-      <HeartIcon className="h-5 w-5" aria-hidden="true" />
-    </button>
-  );
-};
-
-const RemoveFavoriteButton = ({ handleOnClick }) => {
-  return (
-    <button
-      type="button"
-      className="absolute top-2 left-2 focus:outline-none"
-      onClick={handleOnClick}
-    >
-      <span className="sr-only">Remove favorite pose</span>
-      <SolidHeartIcon className="h-5 w-5" aria-hidden="true" />
-    </button>
-  );
-};
-
-const LogInButton = () => {
-  return (
-    <a
-      href="/api/auth/login"
-      className="absolute top-2 left-2 focus:outline-none"
-    >
-      <span className="sr-only">Log in to favorite a pose</span>
-      <HeartIcon className="h-5 w-5" aria-hidden="true" />
-    </a>
-  );
-};
