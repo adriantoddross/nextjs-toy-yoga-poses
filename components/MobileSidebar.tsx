@@ -9,7 +9,11 @@ type Props = {
   setSidebarOpen: () => void;
 } & NavigationProps;
 
-export default function MobileSidebar({ sidebarOpen, setSidebarOpen }: Props) {
+export default function MobileSidebar({
+  sidebarOpen,
+  setSidebarOpen,
+  showFilters,
+}: Props) {
   return (
     <Transition.Root show={sidebarOpen} as={Fragment}>
       <Dialog
@@ -71,7 +75,8 @@ export default function MobileSidebar({ sidebarOpen, setSidebarOpen }: Props) {
                     alt="Your Company"
                   />
                 </div>
-                <NavigationMenu />
+                {/* showFilters prop gets pass upward to MobileSidebar */}
+                <NavigationMenu showFilters={showFilters} />
               </div>
             </Dialog.Panel>
           </Transition.Child>

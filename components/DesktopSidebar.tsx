@@ -1,7 +1,7 @@
 import { NavigationProps } from "lib/typeDefs/types";
 import NavigationMenu from "./NavigationMenu";
 
-export default function DesktopSidebar({}: NavigationProps) {
+export default function DesktopSidebar({ showFilters }: NavigationProps) {
   return (
     <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
       <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-indigo-600 px-6 pb-4">
@@ -12,7 +12,7 @@ export default function DesktopSidebar({}: NavigationProps) {
             alt="Your Company"
           />
         </div>
-        <NavigationMenu />
+        <NavigationMenu showFilters={showFilters} />
       </div>
     </div>
   );

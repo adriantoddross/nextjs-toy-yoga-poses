@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, ReactNode } from "react";
 import { useQuery } from "@apollo/client";
 import GET_EXERCISES from "lib/gql/queryDefs/getExercises";
 import { Bars3Icon } from "@heroicons/react/24/outline";
@@ -8,28 +8,24 @@ import MobileSidebar from "components/MobileSidebar";
 import ProfileHeader from "components/ProfileHeader";
 import { FilterPosesContext } from "context/FilterContext";
 
-export default function Layout({ children }) {
-  const { setFilteredExercises } = useContext(FilterPosesContext);
-
+export default function Layout({
+  children,
+  showFilters,
+}: {
+  children: ReactNode;
+  showFilters?: boolean;
+}) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  const { data: exerciseData } = useQuery(GET_EXERCISES);
-
-  useEffect(() => {
-    if (exerciseData) {
-      const ids = exerciseData.exercise.map((exercise) => exercise.id);
-      setFilteredExercises(ids);
-    }
-  }, [exerciseData]);
 
   return (
     <div>
       <MobileSidebar
         sidebarOpen={sidebarOpen}
         setSidebarOpen={() => setSidebarOpen(false)}
+        showFilters={showFilters}
       />
 
-      <DesktopSidebar />
+      <DesktopSidebar showFilters={showFilters} />
 
       <div className="lg:pl-72">
         <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">

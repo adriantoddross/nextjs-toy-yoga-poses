@@ -7,7 +7,9 @@ import { NavigationProps } from "lib/typeDefs/types";
 import { FilterPosesContext } from "context/FilterContext";
 import { useContext } from "react";
 
-export default function NavigationMenu({}: NavigationProps) {
+export default function NavigationMenu({
+  showFilters = true,
+}: NavigationProps) {
   const { filteredExercises, setFilteredExercises } =
     useContext(FilterPosesContext);
 
@@ -57,7 +59,7 @@ export default function NavigationMenu({}: NavigationProps) {
             ))}
           </ul>
         </li>
-        {filteredExercises && (
+        {showFilters && filteredExercises && (
           <li>
             <div className="text-sm font-bold leading-6 text-indigo-200">
               Filters
