@@ -26,7 +26,9 @@ export default function NavigationMenu({
     setFilteredExercises(updatedFilteredExercises);
   };
 
-  const { data: allExercises } = useQuery(GET_EXERCISES);
+  const { data: allExercises } = useQuery(GET_EXERCISES, {
+    skip: !showFilters,
+  });
 
   return (
     <nav className="flex flex-1 flex-col">
