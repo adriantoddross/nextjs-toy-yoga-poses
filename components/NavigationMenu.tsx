@@ -66,7 +66,18 @@ export default function NavigationMenu({}: NavigationProps) {
               <legend className="text-xs font-semibold leading-6 text-indigo-200">
                 By exercise
               </legend>
-              <div>{/* <button type="button">Reset</button> */}</div>
+              <div className="mt-4 text-sm font-normal leading-6 text-indigo-200">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setFilteredExercises(
+                      allExercises.exercise.map((exercise) => exercise.id)
+                    );
+                  }}
+                >
+                  Reset filters <span className="sr-only">(see all poses)</span>
+                </button>
+              </div>
               <CheckboxList
                 exercises={allExercises?.exercise}
                 handleExerciseSelected={handleFilterOptions}

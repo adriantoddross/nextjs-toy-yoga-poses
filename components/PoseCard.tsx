@@ -68,7 +68,6 @@ export default function PoseCard({ pose, isFavorited }: Props) {
 
   return (
     <div>
-      {/* onClick, send query params to individual page! */}
       <div className="group aspect-h-7 aspect-w-10 block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
         <Link
           href={{
