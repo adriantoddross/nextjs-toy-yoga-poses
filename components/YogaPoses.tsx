@@ -2,20 +2,27 @@ import { Pose } from "lib/typeDefs/types";
 import PoseCard from "./PoseCard";
 
 type Props = {
+  description?: string;
+  favorites?: number[];
   poses: Pose[];
-  favorites: number[];
+  title?: string;
 };
 
-export default function YogaPoses({ poses, favorites }: Props) {
+export default function YogaPoses({
+  poses,
+  favorites,
+  title,
+  description,
+}: Props) {
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       <section>
         <h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-          Yoga Poses
+          {title ?? "Yoga Poses"}
         </h2>
         <p className="mt-6 text-lg leading-8 text-gray-600">
-          Use the filters on the sidebar to find yoga poses that will improve
-          your workouts!
+          {description ??
+            "Use the filters on the sidebar to find yoga poses that will improve your workouts!"}
         </p>
       </section>
       <ul
