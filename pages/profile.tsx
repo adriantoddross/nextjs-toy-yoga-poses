@@ -1,4 +1,4 @@
-import { useUser } from "@auth0/nextjs-auth0/client";
+import { useUser, withPageAuthRequired } from "@auth0/nextjs-auth0/client";
 import { useQuery } from "@apollo/client";
 import Link from "next/link";
 
@@ -7,7 +7,7 @@ import GET_FAVORITE_POSES from "lib/gql/queryDefs/getFavoritePoses";
 import GET_POSES_BY_ID from "lib/gql/queryDefs/getPosesById";
 import YogaPoses from "components/YogaPoses";
 
-export default function Example() {
+export default withPageAuthRequired(function Profile() {
   const { user, error: UserError, isLoading: UserLoading } = useUser();
 
   const {
@@ -89,4 +89,4 @@ export default function Example() {
       </div>
     </Layout>
   );
-}
+});
