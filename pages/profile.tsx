@@ -1,5 +1,6 @@
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useQuery } from "@apollo/client";
+import Link from "next/link";
 
 import Layout from "components/Layout";
 import GET_FAVORITE_POSES from "lib/gql/queryDefs/getFavoritePoses";
@@ -50,19 +51,35 @@ export default function Example() {
       </Layout>
     );
 
+  const FavoritePoses = () =>
+    favoritePoses?.user_pose.length ? (
+      <YogaPoses
+        title="Your Favorite Poses"
+        description="Check out all of the poses you've favorited!"
+        poses={poses?.poses ?? []}
+        favorites={favoritePoses?.user_pose.map((favorite) => favorite.pose_id)}
+      />
+    ) : (
+      <>
+        <h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+          Your Favorite Poses
+        </h2>
+        <p className="mt-6 text-lg leading-8 text-gray-600">
+          Your favorited poses will appear here. Return to the{" "}
+          <Link href="/">
+            <span className="font-semibold underline">homepage</span>
+          </Link>{" "}
+          to view all poses.
+        </p>
+      </>
+    );
+
   return (
     <Layout showFilters={false}>
       <div className="px-4 sm:px-6 lg:px-8">
         <div>
           {user ? (
-            <YogaPoses
-              title="Your Favorite Poses"
-              description="Check out all of the poses you've favorited!"
-              poses={poses?.poses ?? []}
-              favorites={favoritePoses?.user_pose.map(
-                (favorite) => favorite.pose_id
-              )}
-            />
+            <FavoritePoses />
           ) : (
             <div>
               <p>Please login to view this page.</p>
