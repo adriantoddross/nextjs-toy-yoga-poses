@@ -75,7 +75,6 @@ export default function MobileSidebar({
                     alt="Your Company"
                   />
                 </div>
-                {/* showFilters prop gets pass upward to MobileSidebar */}
                 <NavigationMenu showFilters={showFilters} />
               </div>
             </Dialog.Panel>
