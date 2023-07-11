@@ -1,12 +1,8 @@
-import { useState, useEffect, useContext, ReactNode } from "react";
-import { useQuery } from "@apollo/client";
-import GET_EXERCISES from "lib/gql/queryDefs/getExercises";
+import { useState, ReactNode } from "react";
 import { Bars3Icon } from "@heroicons/react/24/outline";
-
 import DesktopSidebar from "components/DesktopSidebar";
 import MobileSidebar from "components/MobileSidebar";
 import ProfileHeader from "components/ProfileHeader";
-import { FilterPosesContext } from "context/FilterContext";
 
 export default function Layout({
   children,
