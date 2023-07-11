@@ -1,29 +1,85 @@
-import { useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import { useQuery } from "@apollo/client";
+import Link from "next/link";
 
 import Layout from "components/Layout";
+import GET_FAVORITE_POSES from "lib/gql/queryDefs/getFavoritePoses";
+import GET_POSES_BY_ID from "lib/gql/queryDefs/getPosesById";
+import YogaPoses from "components/YogaPoses";
 
 export default function Example() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { user, error: UserError, isLoading: UserLoading } = useUser();
 
-  const { user, error, isLoading } = useUser();
+  const {
+    data: favoritePoses,
+    loading: favoritePosesLoading,
+    error: favoritePosesError,
+  } = useQuery(GET_FAVORITE_POSES, {
+    variables: { user_id: user?.sub },
+    skip: !user,
+  });
 
-  if (isLoading) return <div>Loading...</div>;
+  const {
+    data: poses,
+    loading: posesLoading,
+    error: posesError,
+  } = useQuery(GET_POSES_BY_ID, {
+    variables: {
+      poses: favoritePoses?.user_pose?.map((favorite) => favorite.pose_id),
+    },
+    skip: !favoritePoses,
+  });
 
-  if (error) return <div>{error.message}</div>;
+  if (UserLoading || favoritePosesLoading || posesLoading)
+    return (
+      <Layout>
+        <p className="mt-6 text-lg leading-8 text-gray-600">Loading...</p>
+      </Layout>
+    );
+
+  if (UserError || favoritePosesError || posesError)
+    return (
+      <Layout>
+        <h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+          Sorry, there's been an error!
+        </h2>
+        <p className="mt-6 text-lg leading-8 text-gray-600">
+          {UserError.message ||
+            favoritePosesError.message ||
+            posesError.message}
+        </p>
+      </Layout>
+    );
+
+  const FavoritePoses = () =>
+    favoritePoses?.user_pose.length ? (
+      <YogaPoses
+        title="Your Favorite Poses"
+        description="Check out all of the poses you've favorited!"
+        poses={poses?.poses ?? []}
+        favorites={favoritePoses?.user_pose.map((favorite) => favorite.pose_id)}
+      />
+    ) : (
+      <>
+        <h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+          Your Favorite Poses
+        </h2>
+        <p className="mt-6 text-lg leading-8 text-gray-600">
+          Your favorited poses will appear here. Return to the{" "}
+          <Link href="/">
+            <span className="font-semibold underline">homepage</span>
+          </Link>{" "}
+          to view all poses.
+        </p>
+      </>
+    );
 
   return (
-    <Layout>
+    <Layout showFilters={false}>
       <div className="px-4 sm:px-6 lg:px-8">
         <div>
           {user ? (
-            <div>
-              <p>
-                Soon, you'll be able to save searches and save your favorite
-                yoga poses!
-              </p>
-              <p>This feature is still under development and coming soon.</p>
-            </div>
+            <FavoritePoses />
           ) : (
             <div>
               <p>Please login to view this page.</p>

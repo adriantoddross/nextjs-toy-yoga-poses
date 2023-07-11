@@ -13,8 +13,7 @@ type Exercise = {
 };
 
 type NavigationProps = {
-  handleFiltersSelected?: (id: number[]) => void;
-  filteredExercises?: number[];
+  showFilters?: boolean;
 };
 
 export type { Pose, Exercise, NavigationProps };
