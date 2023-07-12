@@ -22,6 +22,9 @@ export default function ProfileHeader() {
             className="h-8 w-8 rounded-full bg-gray-50"
             src={user.picture}
             alt=""
+            referrerPolicy="no-referrer"
+            // We add no-referred to prevent a GET 403 error after a user's image has been fetched by Auth0
+            // https://github.com/auth0-samples/auth0-react-samples/issues/221#issuecomment-1111428975
           />
           <span className="hidden lg:flex lg:items-center">
             <span
