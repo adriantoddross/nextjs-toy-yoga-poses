@@ -6,6 +6,7 @@ import navigation from "util/navigationLinks";
 import { NavigationProps } from "lib/typeDefs/types";
 import { FilterPosesContext } from "context/FilterContext";
 import { useContext } from "react";
+import Layout from "./Layout";
 
 export default function NavigationMenu({
   showFilters = true,
@@ -26,9 +27,18 @@ export default function NavigationMenu({
     setFilteredExercises(updatedFilteredExercises);
   };
 
-  const { data: allExercises } = useQuery(GET_EXERCISES, {
-    skip: !showFilters,
-  });
+  const { data: allExercises, loading: exercisesLoading } = useQuery(
+    GET_EXERCISES,
+    {
+      skip: !showFilters,
+    }
+  );
+
+  // if (exercisesLoading) {
+  //   return (
+  //     <p className="animate-spin bg-black text-white h-15 w-15">Loading...</p>
+  //   );
+  // }
 
   return (
     <nav className="flex flex-1 flex-col">
@@ -61,7 +71,7 @@ export default function NavigationMenu({
             ))}
           </ul>
         </li>
-        {showFilters && filteredExercises && (
+        {showFilters && (
           <li>
             <div className="text-sm font-bold leading-6 text-indigo-200">
               Filters
@@ -82,11 +92,17 @@ export default function NavigationMenu({
                   Reset filters <span className="sr-only">(see all poses)</span>
                 </button>
               </div>
-              <CheckboxList
-                exercises={allExercises?.exercise}
-                handleExerciseSelected={handleFilterOptions}
-                filteredExercises={filteredExercises}
-              />
+              {exercisesLoading ? (
+                <p className="animate-spin bg-black text-white h-15 w-15">
+                  Loading...
+                </p>
+              ) : (
+                <CheckboxList
+                  exercises={allExercises?.exercise}
+                  handleExerciseSelected={handleFilterOptions}
+                  filteredExercises={filteredExercises}
+                />
+              )}
             </fieldset>
           </li>
         )}
