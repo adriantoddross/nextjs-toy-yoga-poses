@@ -79,11 +79,15 @@ export default function PoseCard({ pose, isFavorited }: Props) {
             },
           }}
         >
-          <img
-            src={image_url}
-            alt=""
-            className="pointer-events-none object-cover group-hover:opacity-75"
-          />
+          {image_url ? (
+            <img
+              src={image_url}
+              alt=""
+              className="pointer-events-none object-cover group-hover:opacity-75"
+            />
+          ) : (
+            <div className="w-full h-[128px] md:h-[150px] pointer-events-none object-cover group-hover:opacity-75"></div>
+          )}
         </Link>
         {user ? (
           <FavoritePoseButton
