@@ -7,6 +7,7 @@ import Layout from "components/Layout";
 import { FilterPosesContext } from "context/FilterContext";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import GET_FAVORITE_POSES from "lib/gql/queryDefs/getFavoritePoses";
+import LoadingSpinner from "components/LoadingSpinner";
 
 export default function Home() {
   const { user, error, isLoading } = useUser();
@@ -41,11 +42,15 @@ export default function Home() {
     }
   }, [exerciseData]);
 
-  if (exercisesLoading || favoritePosesLoading || posesLoading) {
+  const queriesLoading =
+    exercisesLoading || favoritePosesLoading || posesLoading;
+
+  if (queriesLoading) {
     return (
       <Layout>
-        {/* Find spinner UI/SVG*/}
-        <p className="animate-spin bg-black text-white h-15 w-15">Loading...</p>
+        <div className="px-4 sm:px-6 lg:px-8">
+          <LoadingSpinner />
+        </div>
       </Layout>
     );
   }
