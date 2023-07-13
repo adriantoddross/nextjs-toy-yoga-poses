@@ -1,11 +1,11 @@
 import { useQuery } from "@apollo/client";
-import CheckboxList from "./CheckboxList";
+import { FilterPosesContext } from "context/FilterContext";
 import GET_EXERCISES from "lib/gql/queryDefs/getExercises";
+import { NavigationProps } from "lib/typeDefs/types";
+import { useContext } from "react";
 import classNames from "util/classnames";
 import navigation from "util/navigationLinks";
-import { NavigationProps } from "lib/typeDefs/types";
-import { FilterPosesContext } from "context/FilterContext";
-import { useContext } from "react";
+import CheckboxList from "./CheckboxList";
 import LoadingSpinner from "./LoadingSpinner";
 
 export default function NavigationMenu({
@@ -33,12 +33,6 @@ export default function NavigationMenu({
       skip: !showFilters,
     }
   );
-
-  // if (exercisesLoading) {
-  //   return (
-  //     <p className="animate-spin bg-black text-white h-15 w-15">Loading...</p>
-  //   );
-  // }w
 
   return (
     <nav className="flex flex-1 flex-col">
