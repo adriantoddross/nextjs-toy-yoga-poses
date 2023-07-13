@@ -93,7 +93,9 @@ export default function NavigationMenu({
                 </button>
               </div>
               {exercisesLoading ? (
-                <LoadingSpinner />
+                <div className="mt-4">
+                  <LoadingSpinner color="text-white" />
+                </div>
               ) : (
                 <CheckboxList
                   exercises={allExercises?.exercise}
