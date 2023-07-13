@@ -1,11 +1,12 @@
-import { useUser, withPageAuthRequired } from "@auth0/nextjs-auth0/client";
 import { useQuery } from "@apollo/client";
+import { useUser, withPageAuthRequired } from "@auth0/nextjs-auth0/client";
 import Link from "next/link";
 
 import Layout from "components/Layout";
+import LoadingSpinner from "components/LoadingSpinner";
+import YogaPoses from "components/YogaPoses";
 import GET_FAVORITE_POSES from "lib/gql/queryDefs/getFavoritePoses";
 import GET_POSES_BY_ID from "lib/gql/queryDefs/getPosesById";
-import YogaPoses from "components/YogaPoses";
 
 export default withPageAuthRequired(function Profile() {
   const { user, error: UserError, isLoading: UserLoading } = useUser();
@@ -32,14 +33,16 @@ export default withPageAuthRequired(function Profile() {
 
   if (UserLoading || favoritePosesLoading || posesLoading)
     return (
-      <Layout>
-        <p className="mt-6 text-lg leading-8 text-gray-600">Loading...</p>
+      <Layout showFilters={false}>
+        <div className="px-4 sm:px-6 lg:px-8">
+          <LoadingSpinner />
+        </div>
       </Layout>
     );
 
   if (UserError || favoritePosesError || posesError)
     return (
-      <Layout>
+      <Layout showFilters={false}>
         <h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
           Sorry, there's been an error!
         </h2>

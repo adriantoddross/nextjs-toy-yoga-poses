@@ -1,9 +1,10 @@
-import { Fragment } from "react";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { Menu, Transition } from "@headlessui/react";
+import { Fragment } from "react";
 import classNames from "util/classnames";
 
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import LoadingSpinner from "./LoadingSpinner";
 
 const userNavigation = [
   { name: "Your profile", href: "/profile" },
@@ -12,6 +13,14 @@ const userNavigation = [
 
 export default function ProfileHeader() {
   const { user, error, isLoading } = useUser();
+
+  if (isLoading) {
+    return (
+      <div className="px-4 sm:px-6 lg:px-8">
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
   if (user) {
     return (
@@ -23,7 +32,7 @@ export default function ProfileHeader() {
             src={user.picture}
             alt=""
             referrerPolicy="no-referrer"
-            // We add no-referred to prevent a GET 403 error after a user's image has been fetched by Auth0
+            // We use no-referred to prevent a GET 403 error after a user's image has been fetched by Auth0
             // https://github.com/auth0-samples/auth0-react-samples/issues/221#issuecomment-1111428975
           />
           <span className="hidden lg:flex lg:items-center">

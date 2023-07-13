@@ -1,11 +1,12 @@
 import { useQuery } from "@apollo/client";
-import CheckboxList from "./CheckboxList";
+import { FilterPosesContext } from "context/FilterContext";
 import GET_EXERCISES from "lib/gql/queryDefs/getExercises";
+import { NavigationProps } from "lib/typeDefs/types";
+import { useContext } from "react";
 import classNames from "util/classnames";
 import navigation from "util/navigationLinks";
-import { NavigationProps } from "lib/typeDefs/types";
-import { FilterPosesContext } from "context/FilterContext";
-import { useContext } from "react";
+import CheckboxList from "./CheckboxList";
+import LoadingSpinner from "./LoadingSpinner";
 
 export default function NavigationMenu({
   showFilters = true,
@@ -26,9 +27,12 @@ export default function NavigationMenu({
     setFilteredExercises(updatedFilteredExercises);
   };
 
-  const { data: allExercises } = useQuery(GET_EXERCISES, {
-    skip: !showFilters,
-  });
+  const { data: allExercises, loading: exercisesLoading } = useQuery(
+    GET_EXERCISES,
+    {
+      skip: !showFilters,
+    }
+  );
 
   return (
     <nav className="flex flex-1 flex-col">
@@ -61,35 +65,42 @@ export default function NavigationMenu({
             ))}
           </ul>
         </li>
-        {showFilters && filteredExercises && (
-          <li>
-            <div className="text-sm font-bold leading-6 text-indigo-200">
-              Filters
+        {showFilters &&
+          (exercisesLoading ? (
+            <div className="mt-4">
+              <LoadingSpinner color="text-white" />
             </div>
-            <fieldset>
-              <legend className="text-xs font-semibold leading-6 text-indigo-200">
-                By exercise
-              </legend>
-              <div className="mt-4 text-sm font-normal leading-6 text-indigo-200">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setFilteredExercises(
-                      allExercises.exercise.map((exercise) => exercise.id)
-                    );
-                  }}
-                >
-                  Reset filters <span className="sr-only">(see all poses)</span>
-                </button>
+          ) : (
+            <li>
+              <div className="text-sm font-bold leading-6 text-indigo-200">
+                Filters
               </div>
-              <CheckboxList
-                exercises={allExercises?.exercise}
-                handleExerciseSelected={handleFilterOptions}
-                filteredExercises={filteredExercises}
-              />
-            </fieldset>
-          </li>
-        )}
+              <fieldset>
+                <legend className="text-xs font-semibold leading-6 text-indigo-200">
+                  By exercise
+                </legend>
+                <div className="mt-4 text-sm font-normal leading-6 text-indigo-200">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setFilteredExercises(
+                        allExercises.exercise.map((exercise) => exercise.id)
+                      );
+                    }}
+                  >
+                    Reset filters{" "}
+                    <span className="sr-only">(see all poses)</span>
+                  </button>
+                </div>
+
+                <CheckboxList
+                  exercises={allExercises?.exercise}
+                  handleExerciseSelected={handleFilterOptions}
+                  filteredExercises={filteredExercises}
+                />
+              </fieldset>
+            </li>
+          ))}
       </ul>
     </nav>
   );
