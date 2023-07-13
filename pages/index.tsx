@@ -1,21 +1,19 @@
-import { useState, useEffect, useContext } from "react";
 import { useQuery } from "@apollo/client";
-import GET_EXERCISES from "lib/gql/queryDefs/getExercises";
-import GET_POSES from "lib/gql/queryDefs/getPoses";
-import YogaPoses from "components/YogaPoses";
-import Layout from "components/Layout";
-import { FilterPosesContext } from "context/FilterContext";
 import { useUser } from "@auth0/nextjs-auth0/client";
-import GET_FAVORITE_POSES from "lib/gql/queryDefs/getFavoritePoses";
+import Layout from "components/Layout";
 import LoadingSpinner from "components/LoadingSpinner";
+import YogaPoses from "components/YogaPoses";
+import { FilterPosesContext } from "context/FilterContext";
+import GET_EXERCISES from "lib/gql/queryDefs/getExercises";
+import GET_FAVORITE_POSES from "lib/gql/queryDefs/getFavoritePoses";
+import GET_POSES from "lib/gql/queryDefs/getPoses";
+import { useContext, useEffect } from "react";
 
 export default function Home() {
   const { user, error, isLoading } = useUser();
 
   const { showPoses, setFilteredExercises, filteredExercises } =
     useContext(FilterPosesContext);
-
-  // Can we turn these queries into one big query for the homepage?
 
   const { data: exerciseData, loading: exercisesLoading } =
     useQuery(GET_EXERCISES);
