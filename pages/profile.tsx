@@ -33,7 +33,7 @@ export default withPageAuthRequired(function Profile() {
 
   if (UserLoading || favoritePosesLoading || posesLoading)
     return (
-      <Layout>
+      <Layout showFilters={false}>
         <div className="px-4 sm:px-6 lg:px-8">
           <LoadingSpinner />
         </div>
@@ -42,7 +42,7 @@ export default withPageAuthRequired(function Profile() {
 
   if (UserError || favoritePosesError || posesError)
     return (
-      <Layout>
+      <Layout showFilters={false}>
         <h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
           Sorry, there's been an error!
         </h2>
