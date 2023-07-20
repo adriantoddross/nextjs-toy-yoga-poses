@@ -1,7 +1,7 @@
 import nextJest from "next/jest.js";
+import type { JestConfigWithTsJest } from "ts-jest";
 import { pathsToModuleNameMapper } from "ts-jest";
 import { compilerOptions } from "./tsconfig.json";
-import type { JestConfigWithTsJest } from "ts-jest";
 
 const createJestConfig = nextJest({
   // nextJest sets configures Jest for us under the hood
@@ -15,4 +15,5 @@ const jestConfig: JestConfigWithTsJest = {
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths),
 };
 
+ // @ts-ignore
 export default createJestConfig(jestConfig);
