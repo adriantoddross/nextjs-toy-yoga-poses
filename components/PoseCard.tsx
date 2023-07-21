@@ -1,9 +1,8 @@
-import { Pose } from "lib/typeDefs/types";
 import { useMutation } from "@apollo/client";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import ADD_FAVORITE_POSE from "lib/gql/queryDefs/addFavoritePose";
 import DELETE_FAVORITE_POSE from "lib/gql/queryDefs/deleteFavoritePose";
-import Link from "next/link";
+import { Pose } from "lib/typeDefs/types";
 import { useRouter } from "next/router";
 import FavoritePoseButton from "./FavoriteButton";
 import LogInButton from "./LogInButton";
@@ -69,26 +68,16 @@ export default function PoseCard({ pose, isFavorited }: Props) {
   return (
     <div>
       <div className="group aspect-h-7 aspect-w-10 block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
-        <Link
-          href={{
-            pathname: "/poses/[id]",
-            query: {
-              id: id,
-              pathname: pathname,
-              pose: JSON.stringify(pose),
-            },
-          }}
-        >
-          {image_url ? (
-            <img
-              src={image_url}
-              alt=""
-              className="pointer-events-none object-cover group-hover:opacity-75"
-            />
-          ) : (
-            <div className="w-full h-[128px] md:h-[150px] pointer-events-none object-cover group-hover:opacity-75"></div>
-          )}
-        </Link>
+        {image_url ? (
+          <img
+            src={image_url}
+            alt=""
+            className="pointer-events-none object-cover group-hover:opacity-75"
+          />
+        ) : (
+          <div className="w-full h-[128px] md:h-[150px] pointer-events-none object-cover group-hover:opacity-75"></div>
+        )}
+
         {user ? (
           <FavoritePoseButton
             handleAddFavorite={handleAddFavoritePose}

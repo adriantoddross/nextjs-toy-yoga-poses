@@ -1,4 +1,3 @@
-import { useState } from "react";
 
 export default function Checkbox({ id, title, onCheckboxSelected, checked }) {
   const handleOnChange = (e) => {
@@ -12,6 +11,7 @@ export default function Checkbox({ id, title, onCheckboxSelected, checked }) {
     >
       <input
         type="checkbox"
+        data-testid={`checkbox-${title}`}
         id={title}
         name={title}
         onChange={handleOnChange}
